@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Валерий Григорьев](https://up.htmlacademy.ru/ecmascript/2/user/451989).
-* Наставник: `Неизвестно`.
+* Наставник: [Роман Чаругин] (https://htmlacademy.ru/profile/id345379).
 
 ---
 
