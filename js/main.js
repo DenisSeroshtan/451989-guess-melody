@@ -22,7 +22,7 @@
         if (event.altKey && event.keyCode === 39) {
           event.preventDefault();
 
-          this.showScreen(Math.min(this.currentIndex + 1, this.screens.length - 1))
+          this.showScreen(Math.min(this.currentIndex + 1, this.screens.length - 1));
 
           return;
         }
@@ -30,11 +30,18 @@
     }
 
     init() {
-    // const mainScreen = document.querySelector(`.main`);
-    // const screens = [];
+      const RESULT_CLASS = `.main--result`;
 
       const templates = document.getElementById(`templates`);
-      this.screens = Array.prototype.slice.call(templates.content.querySelectorAll(`.main`));
+      this.screens = Array.prototype.slice.call(templates.content.querySelectorAll(`.main:not(${RESULT_CLASS})`));
+      this.resultScreens = Array.prototype.slice.call(templates.content.querySelectorAll(RESULT_CLASS));
+
+      if (this.resultScreens.length) {
+        this.resultScreens.splice(Math.min(Math.round(Math.random() * 2), 1), 1);
+      }
+
+      this.screens = [...this.screens, ...this.resultScreens];
+
       this.screens.sort((screenA, screenB) => {
         const screenAIndex = this.screenQueue.indexOf(screenA.className);
         const screenBIndex = this.screenQueue.indexOf(screenB.className);
