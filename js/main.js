@@ -14,9 +14,7 @@
         if (event.altKey && event.keyCode === 37) {
           event.preventDefault();
 
-          if (this.currentIndex > 0) {
-            this.showScreen(this.currentIndex - 1);
-          }
+          this.showScreen(Math.max(0, this.currentIndex - 1));
 
           return;
         }
@@ -24,9 +22,7 @@
         if (event.altKey && event.keyCode === 39) {
           event.preventDefault();
 
-          if (this.currentIndex < this.screens.length - 1) {
-            this.showScreen(this.currentIndex + 1);
-          }
+          this.showScreen(Math.min(this.currentIndex + 1, this.screens.length - 1))
 
           return;
         }
@@ -40,10 +36,13 @@
       const templates = document.getElementById(`templates`);
       this.screens = Array.prototype.slice.call(templates.content.querySelectorAll(`.main`));
       this.screens.sort((screenA, screenB) => {
-        if (this.screenQueue.indexOf(screenA.className) > this.screenQueue.indexOf(screenB.className)) {
+        const screenAIndex = this.screenQueue.indexOf(screenA.className);
+        const screenBIndex = this.screenQueue.indexOf(screenB.className);
+
+        if (screenAIndex > screenBIndex) {
           return 1;
         }
-        if (this.screenQueue.indexOf(screenA.className) < this.screenQueue.indexOf(screenB.className)) {
+        if (screenAIndex < screenBIndex) {
           return -1;
         }
 
