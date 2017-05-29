@@ -37,20 +37,8 @@
     // const screens = [];
 
       const templates = document.getElementById(`templates`);
-
-      const WELCOME_SCREEN = templates.content.querySelector(`.main--welcome`);
-
-      const GAME_GENRE_SELECT_SCREEN = templates.content.querySelector(`.main--level.main--level-genre`);
-      const GAME_ARTIST_SELECT_SCREEN = templates.content.querySelector(`.main--level.main--level-artist`);
-
-      const RESULT_FAIL_SCREEN = templates.content.querySelectorAll(`.main--result`)[0];
-      const RESULT_SUCCESS_SCREEN = templates.content.querySelectorAll(`.main--result`)[1];
-
-      this.screens.push(WELCOME_SCREEN);
-      this.screens.push(GAME_GENRE_SELECT_SCREEN);
-      this.screens.push(GAME_ARTIST_SELECT_SCREEN);
-      this.screens.push(RESULT_SUCCESS_SCREEN);
-      this.screens.push(RESULT_FAIL_SCREEN);
+      this.screens = Array.prototype.slice.call(templates.content.querySelectorAll(`.main`));
+      this.screens.reverse();
 
       const START_INDEX = 0;
       this.mainScreen.appendChild(this.screens[START_INDEX]);
