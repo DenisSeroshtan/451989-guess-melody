@@ -8,6 +8,7 @@
       this.mainScreen = document.querySelector(`.main`);
       this.screens = [];
       this.currentIndex = 0;
+      this.screenQueue = [`main main--welcome`, `main main--level main--level-genre`, `main main--level main--level-artist`, `main main--result`];
 
       window.onkeydown = (event) => {
         if (event.altKey && event.keyCode === 37) {
@@ -38,7 +39,16 @@
 
       const templates = document.getElementById(`templates`);
       this.screens = Array.prototype.slice.call(templates.content.querySelectorAll(`.main`));
-      this.screens.reverse();
+      this.screens.sort((screenA, screenB) => {
+        if (this.screenQueue.indexOf(screenA.className) > this.screenQueue.indexOf(screenB.className)) {
+          return 1;
+        }
+        if (this.screenQueue.indexOf(screenA.className) < this.screenQueue.indexOf(screenB.className)) {
+          return -1;
+        }
+
+        return 0;
+      });
 
       const START_INDEX = 0;
       this.mainScreen.appendChild(this.screens[START_INDEX]);
