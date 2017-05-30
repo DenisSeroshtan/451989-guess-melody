@@ -24,7 +24,7 @@ export default class ScreenView {
 
     this.currentIndex = screenId;
 
-    //this.mainScreen.replaceChild(this.screens[this.currentIndex], prevChild);
-    this.mainScreen.replaceChild(newChild, prevChild);
+    // this.mainScreen.replaceChild(this.screens[this.currentIndex], prevChild); если эту строчку включить то перестает работать совсем
+    this.mainScreen.replaceChild(this.screens[this.currentIndex], prevChild);
   }
 }
