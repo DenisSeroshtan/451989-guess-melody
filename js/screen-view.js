@@ -12,19 +12,17 @@ export default class ScreenView {
     const START_INDEX = 0;
 
     this.mainScreen = document.querySelector(`.main`);
-    this.screens = [welcomScreen(), artistScreen(), genreScreen(), successScreen(), failScreen()];
+    this.screens = [welcomScreen, artistScreen, genreScreen, successScreen, failScreen];
 
-    this.mainScreen.appendChild(this.screens[START_INDEX]);
+    this.mainScreen.appendChild(this.screens[START_INDEX]());
     this.currentIndex = START_INDEX;
   }
 
   showScreen(screenId) {
     const prevChild = this.mainScreen.querySelectorAll(`*`)[0];
-    let newChild = this.screens[this.currentIndex];
 
     this.currentIndex = screenId;
 
-    // this.mainScreen.replaceChild(newChild, prevChild);
-    this.mainScreen.replaceChild(this.screens[this.currentIndex], prevChild);
+    this.mainScreen.replaceChild(this.screens[this.currentIndex](), prevChild);
   }
 }

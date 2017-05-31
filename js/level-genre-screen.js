@@ -4,7 +4,7 @@
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
 
-const screenElement = convertToHtml(`<section class="main main--level main--level-genre">
+const screenElement = `<section class="main main--level main--level-genre">
     <h2 class="title">Выберите инди-рок треки</h2>
     <form class="genre">
       <div class="genre-answer">
@@ -33,13 +33,17 @@ const screenElement = convertToHtml(`<section class="main main--level main--leve
 
       <button class="genre-answer-send" type="submit">Ответить</button>
     </form>
-  </section>`);
+  </section>`;
 // export default screenElement;
 
-const answers = screenElement.querySelectorAll(`.genre-answer`);
-const sendButton = screenElement.querySelector(`.genre-answer-send`);
+let answers;
+let sendButton;
 
 export default function getScreen() {
+  const screenDom = convertToHtml(screenElement);
+  answers = screenDom.querySelectorAll(`.genre-answer`);
+  sendButton = screenDom.querySelector(`.genre-answer-send`);
+
   for (let i = 0; i < answers.length; i++) {
     answers[i].addEventListener(`click`, answerClickHandler);
   }
@@ -53,7 +57,7 @@ export default function getScreen() {
     main.screenView.showScreen(3 + jumper);
   };
 
-  return screenElement;
+  return screenDom;
 }
 
 function answerClickHandler() {

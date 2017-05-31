@@ -4,19 +4,21 @@
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
 
-const screenElement = convertToHtml(`<section class="main main--result">
+const screenElement = `<section class="main main--result">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
 
     <h2 class="title">Вы проиграли</h2>
     <div class="main-stat">Ничего, вам повезет в следующий раз</div>
     <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
-  </section>`);
+  </section>`;
 
 export default function getScreen() {
-  let button = screenElement.querySelector(`.main-replay`);
+  const screenDom = convertToHtml(screenElement);
+
+  let button = screenDom.querySelector(`.main-replay`);
   button.onclick = () => {
     main.screenView.showScreen(0);
-  }
+  };
 
-  return screenElement;
+  return screenDom;
 }

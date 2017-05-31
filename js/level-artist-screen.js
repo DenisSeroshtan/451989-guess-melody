@@ -4,7 +4,7 @@
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
 
-const screenElement = convertToHtml(`<section class="main main--level main--level-artist">
+const screenElement = `<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
@@ -49,11 +49,12 @@ const screenElement = convertToHtml(`<section class="main main--level main--leve
         </div>
       </form>
     </div>
-  </section>`);
+  </section>`;
 // export default screenElement;
 
 export default function getScreen() {
-  const answers = screenElement.querySelectorAll(`.main-answer-wrapper`);
+  const screenDom = convertToHtml(screenElement);
+  const answers = screenDom.querySelectorAll(`.main-answer-wrapper`);
 
   for (let i = 0; i < answers.length; i++) {
     answers[i].onclick = () => {
@@ -61,5 +62,5 @@ export default function getScreen() {
     };
   }
 
-  return screenElement;
+  return screenDom;
 }
