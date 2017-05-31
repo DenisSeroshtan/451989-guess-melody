@@ -3,6 +3,7 @@
  */
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
+import welcomeScreen from './welcome-screen.js';
 
 const screenElement = `<section class="main main--result">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -17,7 +18,7 @@ export default function getScreen() {
 
   let button = screenDom.querySelector(`.main-replay`);
   button.onclick = () => {
-    main.screenView.showScreen(0);
+    main.screenView.showScreen(welcomeScreen());
   };
 
   return screenDom;

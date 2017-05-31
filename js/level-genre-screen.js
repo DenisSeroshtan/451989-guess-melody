@@ -3,6 +3,8 @@
  */
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
+import failScreen from './level-fail-screen.js';
+import successScreen from './level-success-screen.js';
 
 const screenElement = `<section class="main main--level main--level-genre">
     <h2 class="title">Выберите инди-рок треки</h2>
@@ -54,7 +56,8 @@ export default function getScreen() {
     event.preventDefault();
 
     const jumper = Math.round(Math.random());
-    main.screenView.showScreen(3 + jumper);
+    const resultScreens = [failScreen, successScreen];
+    main.screenView.showScreen(resultScreens[jumper]());
   };
 
   return screenDom;

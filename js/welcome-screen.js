@@ -3,6 +3,7 @@
  */
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
+import artistScreen from './level-artist-screen.js';
 
 const screenElement = `<section class="main main--welcome">
     <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -19,7 +20,7 @@ export default function getScreen() {
   const screenDom = convertToHtml(screenElement);
   let button = screenDom.querySelector(`.main-play`);
   button.onclick = () => {
-    main.screenView.showScreen(1);
+    main.screenView.showScreen(artistScreen());
   };
 
   return screenDom;
