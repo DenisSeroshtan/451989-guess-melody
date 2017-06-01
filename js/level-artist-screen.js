@@ -4,6 +4,7 @@
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
 import genreScreen from './level-genre-screen.js';
+import * as gameData from './data.js';
 
 const screenElement = `<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
@@ -25,29 +26,7 @@ const screenElement = `<section class="main main--level main--level-artist">
       <h2 class="title main-title">Кто исполняет эту песню?</h2>
       <div class="player-wrapper"></div>
       <form class="main-list">
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-1" name="answer" value="val-1" />
-          <label class="main-answer" for="answer-1">
-            <img class="main-answer-preview" src="">
-            Пелагея
-          </label>
-        </div>
-
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-2" name="answer" value="val-1" />
-          <label class="main-answer" for="answer-2">
-            <img class="main-answer-preview" src="">
-            Краснознаменная дивизия имени моей бабушки
-          </label>
-        </div>
-
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-2" name="answer" value="val-1" />
-          <label class="main-answer" for="answer-2">
-            <img class="main-answer-preview" src="">
-            Lorde
-          </label>
-        </div>
+        ${createAnswer(1, gameData.getRandomArtist()) + createAnswer(2, gameData.getRandomArtist()) + createAnswer(3, gameData.getRandomArtist())}
       </form>
     </div>
   </section>`;
@@ -64,4 +43,14 @@ export default function getScreen() {
   }
 
   return screenDom;
+}
+
+function createAnswer(index, artistObject) {
+  return `<div class="main-answer-wrapper">
+    <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="val-1" />
+    <label class="main-answer" for="answer-1">
+    <img class="main-answer-preview" src="${artistObject.image}">
+    ${artistObject.artistName}
+    </label>
+    </div>`;
 }
