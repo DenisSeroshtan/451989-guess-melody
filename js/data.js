@@ -1,12 +1,16 @@
 /**
  * Created by kleone on 01.06.2017.
  */
+import * as utils from './utils';
+
 export const gameInfo = Object.freeze({
   'gameName': `Угадай Мелодию`,
   'rules': `Правила просты&nbsp;— за&nbsp;2 минуты дать
   максимальное количество правильных ответов.<br>
   Удачи!`
 });
+
+const ARTISTS_IN_SCREEN = 3;
 
 const HOUSE = `House`;
 const INDIE = `Indie`;
@@ -53,17 +57,21 @@ export function getRandomArtist() {
   return randomArtist;
 }
 
-const ARTIST_ANSWER_CASE_COUNT = 3;
-export function getRandomWithCorrectArtist(correctArtistObject) {
-  // здесь нужно sort вставить хитрый, чтобы артисты в тройке не повторялись
 
+export function getInvalidAndValidArtists(validArtist) {
+  const cloneArtists = artists.slice();
   const resultArtists = [];
 
-  for (let i = 0; i < ARTIST_ANSWER_CASE_COUNT; i++) {
-    resultArtists.push(getRandomArtist());
+  while (cloneArtists.length && resultArtists.length <= ARTISTS_IN_SCREEN) {
+    const randomArtist = cloneArtists.splice(utils.getArrayRandomIndex(cloneArtists.length), 1)[0];
+    if (validArtist.artistName === randomArtist.artistName) {
+      continue;
+    }
+
+    resultArtists.push(randomArtist);
   }
 
-  resultArtists[Math.round((resultArtists.length - 1) * Math.random())] = correctArtistObject;
+  resultArtists.splice(utils.getArrayRandomIndex(resultArtists.length), 0, validArtist);
 
   return resultArtists;
 }

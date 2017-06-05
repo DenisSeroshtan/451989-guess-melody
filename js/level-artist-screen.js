@@ -26,7 +26,9 @@ const screenElement = `<section class="main main--level main--level-artist">
       <h2 class="title main-title">Кто исполняет эту песню?</h2>
       <div class="player-wrapper"></div>
       <form class="main-list">
-        ${createAnswer(1, gameData.getRandomArtist()) + createAnswer(2, gameData.getRandomArtist()) + createAnswer(3, gameData.getRandomArtist())}
+        ${gameData.getInvalidAndValidArtists(gameData.getRandomArtist()).map((artist, index) => {
+          return createAnswer(index, artist);
+        })}
       </form>
     </div>
   </section>`;
