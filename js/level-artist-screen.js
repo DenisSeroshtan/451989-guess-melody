@@ -26,7 +26,7 @@ const screenElement = `<section class="main main--level main--level-artist">
       <h2 class="title main-title">Кто исполняет эту песню?</h2>
       <div class="player-wrapper"></div>
       <form class="main-list">
-        ${gameData.getInvalidAndValidArtists(gameData.getRandomArtist()).map((artist, index) => {
+        ${gameData.getInvalidAndValidArtists(gameData.gameState.artistObject).map((artist, index) => {
           return createAnswer(index, artist);
         })}
       </form>
@@ -37,6 +37,10 @@ const screenElement = `<section class="main main--level main--level-artist">
 export default function getScreen() {
   const screenDom = convertToHtml(screenElement);
   const answers = screenDom.querySelectorAll(`.main-answer-wrapper`);
+  const player = screenDom.querySelector(`.player-wrapper`);
+  const artistSong = gameData.getSongByArtistName(gameData.gameState.artistObject.artistName);
+
+  window.initializePlayer(player, artistSong.file, true, true);
 
   for (let i = 0; i < answers.length; i++) {
     answers[i].onclick = () => {
