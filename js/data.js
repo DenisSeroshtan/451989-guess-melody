@@ -81,6 +81,18 @@ export function getSongByArtistName(artistName) {
   return null;
 }
 
+const MAX_CORRECT_GENRE = 2;
+const MAX_VARIANTS = 4;
+export function getGenreQuestionSongs(correctGenre) {
+  const correctSongs = getSongsByGenreName(correctGenre.genreName);
+  const correctAnswerCount = Math.min(utils.getLengthRandomIndex(MAX_CORRECT_GENRE), correctSongs.length); // Случайное количество правильных ответов в вопросе
+  const resultSongs = [];
+
+  for (let i = 0; i < correctAnswerCount; i++) {
+    //resu
+  }
+}
+
 export function getSongsByGenreName(genreName) {
   const returnedArray = [];
   for (let i = 0; i < songs.length; i++) {
@@ -93,8 +105,7 @@ export function getSongsByGenreName(genreName) {
 }
 
 export function getRandomGenre() {
-  const randomGenre = genres[utils.getArrayRandomIndex(genres.length)];
-  console.log(randomGenre);
+  const randomGenre = genres[utils.getLengthRandomIndex(genres.length)];
   return randomGenre;
 }
 
@@ -104,7 +115,7 @@ export function getInvalidAndValidArtists(validArtist) {
   const resultArtists = [];
 
   while (cloneArtists.length && resultArtists.length <= ARTISTS_IN_SCREEN) {
-    const randomArtist = cloneArtists.splice(utils.getArrayRandomIndex(cloneArtists.length), 1)[0];
+    const randomArtist = cloneArtists.splice(utils.getLengthRandomIndex(cloneArtists.length), 1)[0];
     if (validArtist.artistName === randomArtist.artistName) {
       continue;
     }
@@ -112,7 +123,7 @@ export function getInvalidAndValidArtists(validArtist) {
     resultArtists.push(randomArtist);
   }
 
-  resultArtists.splice(utils.getArrayRandomIndex(resultArtists.length), 0, validArtist);
+  resultArtists.splice(utils.getLengthRandomIndex(resultArtists.length), 0, validArtist);
   return resultArtists;
 }
 
