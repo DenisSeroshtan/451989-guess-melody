@@ -8,9 +8,9 @@ import successScreen from './level-success-screen.js';
 import * as gameData from './data.js';
 
 const screenElement = `<section class="main main--level main--level-genre">
-    <h2 class="title">Выберите ${gameData.getGenreDescriptionByName(gameData.INDIE).toLowerCase()} треки</h2>
+    <h2 class="title">Выберите ${gameData.gameState.genreObject.description.toLowerCase()} треки</h2>
     <form class="genre">
-      ${gameData.getInvalidAndValidArtists(gameData.getSongsByGenre(gameData.INDIE)).map((song, index) => {
+      ${gameData.getSongsByGenreName(gameData.gameState.genreObject.genreName).map((song, index) => {
         return createSong(index, song);
       })}
       <button class="genre-answer-send" type="submit">Ответить</button>
@@ -22,9 +22,18 @@ let answers;
 let sendButton;
 
 export default function getScreen() {
+
   const screenDom = convertToHtml(screenElement);
   answers = screenDom.querySelectorAll(`.genre-answer`);
   sendButton = screenDom.querySelector(`.genre-answer-send`);
+
+  //const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
+
+  /*
+  for(let i = 0; i < playerWrappers.length; i++){
+    window.initializePlayer(playerWrappers[i],)
+  }
+  */
 
   for (let i = 0; i < answers.length; i++) {
     answers[i].addEventListener(`click`, answerClickHandler);
@@ -53,7 +62,7 @@ function answerClickHandler() {
 
 function createSong(index, song) {
   return `<div class="genre-answer">
-            <div class="player-wrapper"><script src="player.js"></script> </div>
+            <div class="player-wrapper"></div>
             <input type="checkbox" name="answer" value="answer-1" id="a-${index}">
             <label class="genre-answer-check" for="a-${index}"></label>
           </div>`;
