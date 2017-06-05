@@ -27,7 +27,7 @@ export default function getScreen() {
   answers = screenDom.querySelectorAll(`.genre-answer`);
   sendButton = screenDom.querySelector(`.genre-answer-send`);
 
-  //const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
+  // const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
 
   /*
   for(let i = 0; i < playerWrappers.length; i++){
