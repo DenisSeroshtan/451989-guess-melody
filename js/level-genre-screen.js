@@ -5,34 +5,14 @@ import convertToHtml from './string-to-html.js';
 import main from './main.js';
 import failScreen from './level-fail-screen.js';
 import successScreen from './level-success-screen.js';
+import * as gameData from './data.js';
 
 const screenElement = `<section class="main main--level main--level-genre">
-    <h2 class="title">Выберите инди-рок треки</h2>
+    <h2 class="title">Выберите ${gameData.getGenreDescriptionByName(gameData.INDIE).toLowerCase()} треки</h2>
     <form class="genre">
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-1">
-        <label class="genre-answer-check" for="a-1"></label>
-      </div>
-
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-2">
-        <label class="genre-answer-check" for="a-2"></label>
-      </div>
-
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-3">
-        <label class="genre-answer-check" for="a-3"></label>
-      </div>
-
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-4">
-        <label class="genre-answer-check" for="a-4"></label>
-      </div>
-
+      ${gameData.getInvalidAndValidArtists(gameData.getSongsByGenre(gameData.INDIE)).map((song, index) => {
+        return createSong(index, song);
+      })}
       <button class="genre-answer-send" type="submit">Ответить</button>
     </form>
   </section>`;
@@ -69,4 +49,12 @@ function answerClickHandler() {
   }
 
   sendButton.disabled = false;
+}
+
+function createSong(index, song) {
+  return `<div class="genre-answer">
+            <div class="player-wrapper"><script src="player.js"></script> </div>
+            <input type="checkbox" name="answer" value="answer-1" id="a-${index}">
+            <label class="genre-answer-check" for="a-${index}"></label>
+          </div>`;
 }

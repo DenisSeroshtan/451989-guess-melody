@@ -4,10 +4,12 @@
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
 import welcomeScreen from './welcome-screen.js';
+import * as gameData from './data.js';
+
+const LOGO = `<section class="logo" title="${gameData.gameInfo.gameName}"><h1>${gameData.gameInfo.gameName}</h1></section>`;
 
 const screenElement = `<section class="main main--result">
-    <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
-
+    ${LOGO}
     <h2 class="title">Вы проиграли</h2>
     <div class="main-stat">Ничего, вам повезет в следующий раз</div>
     <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
