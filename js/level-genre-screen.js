@@ -10,7 +10,7 @@ import * as gameData from './data.js';
 const screenElement = `<section class="main main--level main--level-genre">
     <h2 class="title">Выберите ${gameData.gameState.genreObject.description.toLowerCase()} треки</h2>
     <form class="genre">
-      ${gameData.getSongsByGenreName(gameData.gameState.genreObject.genreName).map((song, index) => {
+      ${gameData.getGenreQuestionSongs(gameData.gameState.genreObject).map((song, index) => {
         return createSong(index, song);
       })}
       <button class="genre-answer-send" type="submit">Ответить</button>
