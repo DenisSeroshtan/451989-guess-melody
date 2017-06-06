@@ -3,17 +3,13 @@
  */
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
-import failScreen from './level-fail-screen.js';
-import successScreen from './level-success-screen.js';
 import * as gameData from './data.js';
 
-const answerSongs = gameData.getGenreQuestionSongs(gameData.gameState.genreObject);
-
-const screenElement = `<section class="main main--level main--level-genre">
-    <h2 class="title">Выберите ${gameData.gameState.genreObject.description.toLowerCase()} треки</h2>
+const screenTemplate = (currentQuestion) => `<section class="main main--level main--level-genre">
+    <h2 class="title">Выберите ${currentQuestion.data.description.toLowerCase()} треки</h2>
     <form class="genre">
-      ${answerSongs.map((song, index) => {
-        return createSong(index, song);
+      ${[...currentQuestion.answers].map((answer, index) => {
+        return createSong(index, answer.song);
       })}
       <button class="genre-answer-send" type="submit">Ответить</button>
     </form>
@@ -24,15 +20,15 @@ let answers;
 let sendButton;
 
 export default function getScreen() {
-
-  const screenDom = convertToHtml(screenElement);
+  const currentQuestion = gameData.gameState.currentQuestion;
+  const screenDom = convertToHtml(screenTemplate(currentQuestion));
   answers = screenDom.querySelectorAll(`.genre-answer`);
   sendButton = screenDom.querySelector(`.genre-answer-send`);
 
   const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
 
   for (let i = 0; i < playerWrappers.length; i++) {
-    window.initializePlayer(playerWrappers[i], answerSongs[i].file, false, true);
+    window.initializePlayer(playerWrappers[i], [...currentQuestion.answers][i].data.file, false, true);
   }
 
   for (let i = 0; i < answers.length; i++) {
@@ -44,9 +40,7 @@ export default function getScreen() {
   sendButton.onclick = (event) => {
     event.preventDefault();
 
-    const jumper = Math.round(Math.random());
-    const resultScreens = [failScreen, successScreen];
-    main.screenView.showScreen(resultScreens[jumper]());
+    main.screenView.showNextQuestion();
   };
 
   return screenDom;
