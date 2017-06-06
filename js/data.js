@@ -72,7 +72,7 @@ export function getRandomArtist() {
 }
 
 export function getSongByArtistName(artistName) {
-  for (let i = 0; i < songs.length; i++) {
+  for (let i in songs) {
     if (songs[i].artistName === artistName) {
       return songs[i];
     }
@@ -81,16 +81,35 @@ export function getSongByArtistName(artistName) {
   return null;
 }
 
-const MAX_CORRECT_GENRE = 2;
-const MAX_VARIANTS = 4;
+const MAX_CORRECT_ANSWERS = 2;
+const MAX_ANSWERS = 4;
 export function getGenreQuestionSongs(correctGenre) {
-  const correctSongs = getSongsByGenreName(correctGenre.genreName);
-  const correctAnswerCount = Math.min(utils.getLengthRandomIndex(MAX_CORRECT_GENRE), correctSongs.length); // Случайное количество правильных ответов в вопросе
-  const resultSongs = [];
+  let correctSongs = getSongsByGenreName(correctGenre.genreName);
 
-  for (let i = 0; i < correctAnswerCount; i++) {
-    //resu
+  const correctAnswerCount = Math.min(utils.getRandomIndex(MAX_CORRECT_ANSWERS, 1), correctSongs.length); // Случайное количество правильных ответов в вопросе
+  correctSongs = utils.shuffleArray(correctSongs); // перемешать правильные ответы между собой
+  correctSongs.splice(0, correctAnswerCount); // отрезать часть правильных ответов до значения MAX_CORRECT_ANSWERS
+
+  const resultSongs = [...correctSongs];
+
+  for (let i = 0; i < Math.min(songs.length, MAX_ANSWERS); i++) {
+    const checkedSong = songs[i];
+
+    let hasCoincidence = false;
+    for (let j = 0; j < correctSongs.length; j++) {
+      if (correctSongs[j].song === checkedSong.song) {
+        hasCoincidence = true;
+      }
+    }
+
+    if (hasCoincidence) {
+      continue;
+    } else {
+      resultSongs.push(checkedSong);
+    }
   }
+
+  return resultSongs;
 }
 
 export function getSongsByGenreName(genreName) {
@@ -105,7 +124,7 @@ export function getSongsByGenreName(genreName) {
 }
 
 export function getRandomGenre() {
-  const randomGenre = genres[utils.getLengthRandomIndex(genres.length)];
+  const randomGenre = genres[utils.getRandomIndexByArrayLength(genres.length)];
   return randomGenre;
 }
 
@@ -115,7 +134,7 @@ export function getInvalidAndValidArtists(validArtist) {
   const resultArtists = [];
 
   while (cloneArtists.length && resultArtists.length <= ARTISTS_IN_SCREEN) {
-    const randomArtist = cloneArtists.splice(utils.getLengthRandomIndex(cloneArtists.length), 1)[0];
+    const randomArtist = cloneArtists.splice(utils.getRandomIndexByArrayLength(cloneArtists.length), 1)[0];
     if (validArtist.artistName === randomArtist.artistName) {
       continue;
     }
@@ -123,7 +142,7 @@ export function getInvalidAndValidArtists(validArtist) {
     resultArtists.push(randomArtist);
   }
 
-  resultArtists.splice(utils.getLengthRandomIndex(resultArtists.length), 0, validArtist);
+  resultArtists.splice(utils.getRandomIndexByArrayLength(resultArtists.length), 0, validArtist);
   return resultArtists;
 }
 

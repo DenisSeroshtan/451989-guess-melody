@@ -24,5 +24,7 @@ export default function getScreen() {
     main.screenView.showScreen(artistScreen());
   };
 
+  gameData.getGenreQuestionSongs(gameData.gameState.genreObject);
+
   return screenDom;
 }
