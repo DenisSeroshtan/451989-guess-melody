@@ -9,7 +9,7 @@ const screenTemplate = (currentQuestion) => `<section class="main main--level ma
     <h2 class="title">Выберите ${currentQuestion.data.description.toLowerCase()} треки</h2>
     <form class="genre">
       ${[...currentQuestion.answers].map((answer, index) => {
-        return createSong(index, answer.song);
+        return createSong(index, answer);
       })}
       <button class="genre-answer-send" type="submit">Ответить</button>
     </form>
@@ -28,7 +28,7 @@ export default function getScreen() {
   const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
 
   for (let i = 0; i < playerWrappers.length; i++) {
-    window.initializePlayer(playerWrappers[i], [...currentQuestion.answers][i].data.file, false, true);
+    window.initializePlayer(playerWrappers[i], [...currentQuestion.answers][i].file, false, true);
   }
 
   for (let i = 0; i < answers.length; i++) {
@@ -54,7 +54,7 @@ function answerClickHandler() {
   sendButton.disabled = false;
 }
 
-function createSong(index, song) {
+function createSong(index, answer) {
   return `<div class="genre-answer">
             <div class="player-wrapper"></div>
             <input type="checkbox" name="answer" value="answer-1" id="a-${index}">
