@@ -26,7 +26,7 @@ const screenTemplate = (currentQuestion) => `<section class="main main--level ma
       <div class="player-wrapper"></div>
       <form class="main-list">
         ${[...gameData.gameState.currentQuestion.answers].map((answer, index) => {
-          return createAnswer(index, answer.data);
+          return createAnswer(index, answer);
         })}
       </form>
     </div>
@@ -52,12 +52,12 @@ export default function getScreen() {
   return screenDom;
 }
 
-function createAnswer(index, artistObject) {
+function createAnswer(index, answer) {
   return `<div class="main-answer-wrapper">
     <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="val-1" />
     <label class="main-answer" for="answer-1">
-    <img class="main-answer-preview" src="${artistObject.image}">
-    ${artistObject.artistName}
+    <img class="main-answer-preview" src="${answer.image}">
+    ${answer.artistName}
     </label>
     </div>`;
 }
