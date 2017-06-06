@@ -1,6 +1,3 @@
-/**
- * Created by Kleon on 02.06.2017.
- */
 export function getRandomIndexByArrayLength(length) {
   return getRandomIndex(length, 1) - 1;
 }

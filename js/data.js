@@ -5,10 +5,11 @@ import * as utils from './utils';
 
 const ARTISTS_IN_SCREEN = 3;
 
+
 //  ***********
 export const HOUSE_GENRE_NAME = `House`;
 export const INDIE_GENRE_NAME = `Indie`;
-const genres = [];
+const genres = {};
 createGenre(HOUSE_GENRE_NAME, `Хаус`);
 createGenre(INDIE_GENRE_NAME, `Инди-рок`);
 
@@ -16,24 +17,49 @@ createGenre(INDIE_GENRE_NAME, `Инди-рок`);
 const LYKKE_LI = `Lykke Li`;
 const LANA_DEL_REY = `Lana Del Rey`;
 const JUSTICE = `Justice`;
-const artists = [];
+const artists = {};
 createArtist(LYKKE_LI, `./img/artists/lykke_li.jpg`);
 createArtist(LANA_DEL_REY, `./img/artists/lana_del_rey.jpeg`);
 createArtist(JUSTICE, `./img/artists/justice.jpg`);
 
 //  ***********
-const songs = [];
+const songs = {};
 createSong(LANA_DEL_REY, `Blue Jeans (RAC Remix)`, `sound/Lana Del Rey - Blue Jeans (RAC Remix).mp3`, INDIE_GENRE_NAME);
 createSong(LYKKE_LI, `Breaking It Up (Familjen Remix)`, `sound/Lykke Li - Breaking It Up (Familjen Remix).mp3`, INDIE_GENRE_NAME);
 createSong(JUSTICE, `Justice - D.A.N.C.E.`, `sound/Justice - D.A.N.C.E..mp3`, HOUSE_GENRE_NAME);
 
 //  ***********
-export const gameState = Object.freeze({
+export const ARTIST_QUESTION_TYPE = 1;
+export const GENRE_QUESTION_TYPE = 2;
+export const questions = [];
+
+createQuestion(ARTIST_QUESTION_TYPE, songs[`Blue Jeans (RAC Remix)`], new Set([
+  createAnswer(true, artists[LANA_DEL_REY]),
+  createAnswer(false, artists[LYKKE_LI]),
+  createAnswer(false, artists[JUSTICE])
+]));
+
+createQuestion(ARTIST_QUESTION_TYPE, songs[`Justice - D.A.N.C.E.`], new Set([
+  createAnswer(true, artists[JUSTICE]),
+  createAnswer(false, artists[LYKKE_LI]),
+  createAnswer(false, artists[LANA_DEL_REY])
+]));
+
+createQuestion(GENRE_QUESTION_TYPE, genres[INDIE_GENRE_NAME], new Set([
+  createAnswer(true, songs[`Blue Jeans (RAC Remix)`]),
+  createAnswer(true, songs[`Breaking It Up (Familjen Remix)`]),
+  createAnswer(false, songs[`Justice - D.A.N.C.E.`])
+]));
+
+//  ***********
+export const initGameState = Object.freeze({
   'time': 120,
   "correctAnswers": 0,
-  "genreObject": getRandomGenre(),
-  "artistObject": getRandomArtist()
+  "currentQuestion": null,
+  "currentQuestionIndex": 0
 });
+export let gameState;
+resetGameState();
 
 export const gameInfo = Object.freeze({
   'gameName': `Угадай Мелодию`,
@@ -42,27 +68,43 @@ export const gameInfo = Object.freeze({
   Удачи!`
 });
 
+export function resetGameState() {
+  gameState = Object.assign({}, initGameState);
+}
+
 function createSong(artist, song, file, genre) {
-  songs.push({
+  songs[song] = {
     'artistName': artist,
     'song': song,
     'file': file,
     'genre': genre
-  });
+  };
 }
 
 function createArtist(artist, image) {
-  artists.push({
+  artists[artist] = {
     'artistName': artist,
     'image': image
+  };
+}
+
+function createQuestion(type, data, answers) {
+  questions.push({
+    'type': type,
+    'data': data,
+    'answers': answers
   });
 }
 
+function createAnswer(valid, data) {
+  return {'valid': valid, 'data': data};
+}
+
 function createGenre(genre, description) {
-  genres.push({
+  genres[genre] = {
     'genreName': genre,
     'description': description
-  });
+  };
 }
 
 export function getRandomArtist() {
