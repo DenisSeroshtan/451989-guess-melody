@@ -17,9 +17,9 @@ const LYKKE_LI = `Lykke Li`;
 const LANA_DEL_REY = `Lana Del Rey`;
 const JUSTICE = `Justice`;
 const artists = [];
-createArtist(LYKKE_LI, `/img/artists/lykke_li.jpg`);
-createArtist(LANA_DEL_REY, `/img/artists/lana_del_rey.jpeg`);
-createArtist(JUSTICE, `/img/artists/justice.jpg`);
+createArtist(LYKKE_LI, `./img/artists/lykke_li.jpg`);
+createArtist(LANA_DEL_REY, `./img/artists/lana_del_rey.jpeg`);
+createArtist(JUSTICE, `./img/artists/justice.jpg`);
 
 //  ***********
 const songs = [];
