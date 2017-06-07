@@ -18,16 +18,28 @@ const screenTemplate = (currentQuestion) => `<section class="main main--level ma
 
 let answers;
 let sendButton;
+let currentAudio;
 
 export default function getScreen() {
   const currentQuestion = gameData.gameState.currentQuestion;
   const screenDom = convertToHtml(screenTemplate(currentQuestion));
+
   answers = screenDom.querySelectorAll(`.genre-answer`);
   sendButton = screenDom.querySelector(`.genre-answer-send`);
 
   const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
 
   for (let i = 0; i < playerWrappers.length; i++) {
+    playerWrappers[i].addEventListener(`click`, (event)=>{
+      event.preventDefault();
+
+      if (currentAudio) {
+        currentAudio.pause();
+      }
+
+      currentAudio = playerWrappers[i].querySelectorAll(`audio`)[0];
+    });
+
     window.initializePlayer(playerWrappers[i], [...currentQuestion.answers][i].file, false, true);
   }
 
