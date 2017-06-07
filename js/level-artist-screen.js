@@ -3,9 +3,9 @@
  */
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
-import genreScreen from './level-genre-screen.js';
+import * as gameData from './data.js';
 
-const screenElement = `<section class="main main--level main--level-artist">
+const screenTemplate = (currentQuestion) => `<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
       <circle
         cx="390" cy="390" r="370"
@@ -25,43 +25,39 @@ const screenElement = `<section class="main main--level main--level-artist">
       <h2 class="title main-title">Кто исполняет эту песню?</h2>
       <div class="player-wrapper"></div>
       <form class="main-list">
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-1" name="answer" value="val-1" />
-          <label class="main-answer" for="answer-1">
-            <img class="main-answer-preview" src="">
-            Пелагея
-          </label>
-        </div>
-
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-2" name="answer" value="val-1" />
-          <label class="main-answer" for="answer-2">
-            <img class="main-answer-preview" src="">
-            Краснознаменная дивизия имени моей бабушки
-          </label>
-        </div>
-
-        <div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="answer-2" name="answer" value="val-1" />
-          <label class="main-answer" for="answer-2">
-            <img class="main-answer-preview" src="">
-            Lorde
-          </label>
-        </div>
+        ${[...gameData.gameState.currentQuestion.answers].map((answer, index) => {
+          return createAnswer(index, answer);
+        })}
       </form>
     </div>
   </section>`;
 // export default screenElement;
 
 export default function getScreen() {
-  const screenDom = convertToHtml(screenElement);
+  const currentQuestion = gameData.gameState.currentQuestion;
+  const screenDom = convertToHtml(screenTemplate(currentQuestion));
   const answers = screenDom.querySelectorAll(`.main-answer-wrapper`);
+  const player = screenDom.querySelector(`.player-wrapper`);
+  const artistSong = gameData.gameState.currentQuestion.data;
+
+  window.initializePlayer(player, artistSong.file, true, true);
 
   for (let i = 0; i < answers.length; i++) {
     answers[i].onclick = () => {
-      main.screenView.showScreen(genreScreen());
+      gameData.gameState.currentQuestion++;
+      main.screenView.showNextQuestion();
     };
   }
 
   return screenDom;
+}
+
+function createAnswer(index, answer) {
+  return `<div class="main-answer-wrapper">
+    <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="val-1" />
+    <label class="main-answer" for="answer-1">
+    <img class="main-answer-preview" src="${answer.image}">
+    ${answer.artistName}
+    </label>
+    </div>`;
 }

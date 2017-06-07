@@ -3,36 +3,14 @@
  */
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
-import failScreen from './level-fail-screen.js';
-import successScreen from './level-success-screen.js';
+import * as gameData from './data.js';
 
-const screenElement = `<section class="main main--level main--level-genre">
-    <h2 class="title">Выберите инди-рок треки</h2>
+const screenTemplate = (currentQuestion) => `<section class="main main--level main--level-genre">
+    <h2 class="title">Выберите ${currentQuestion.data.description.toLowerCase()} треки</h2>
     <form class="genre">
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-1">
-        <label class="genre-answer-check" for="a-1"></label>
-      </div>
-
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-2">
-        <label class="genre-answer-check" for="a-2"></label>
-      </div>
-
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-3">
-        <label class="genre-answer-check" for="a-3"></label>
-      </div>
-
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-4">
-        <label class="genre-answer-check" for="a-4"></label>
-      </div>
-
+      ${[...currentQuestion.answers].map((answer, index) => {
+        return createSong(index, answer);
+      })}
       <button class="genre-answer-send" type="submit">Ответить</button>
     </form>
   </section>`;
@@ -40,11 +18,30 @@ const screenElement = `<section class="main main--level main--level-genre">
 
 let answers;
 let sendButton;
+let currentAudio;
 
 export default function getScreen() {
-  const screenDom = convertToHtml(screenElement);
+  const currentQuestion = gameData.gameState.currentQuestion;
+  const screenDom = convertToHtml(screenTemplate(currentQuestion));
+
   answers = screenDom.querySelectorAll(`.genre-answer`);
   sendButton = screenDom.querySelector(`.genre-answer-send`);
+
+  const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
+
+  for (let i = 0; i < playerWrappers.length; i++) {
+    playerWrappers[i].addEventListener(`click`, (event)=>{
+      event.preventDefault();
+
+      if (currentAudio) {
+        currentAudio.pause();
+      }
+
+      currentAudio = playerWrappers[i].querySelectorAll(`audio`)[0];
+    });
+
+    window.initializePlayer(playerWrappers[i], [...currentQuestion.answers][i].file, false, true);
+  }
 
   for (let i = 0; i < answers.length; i++) {
     answers[i].addEventListener(`click`, answerClickHandler);
@@ -55,9 +52,7 @@ export default function getScreen() {
   sendButton.onclick = (event) => {
     event.preventDefault();
 
-    const jumper = Math.round(Math.random());
-    const resultScreens = [failScreen, successScreen];
-    main.screenView.showScreen(resultScreens[jumper]());
+    main.screenView.showNextQuestion();
   };
 
   return screenDom;
@@ -69,4 +64,12 @@ function answerClickHandler() {
   }
 
   sendButton.disabled = false;
+}
+
+function createSong(index, answer) {
+  return `<div class="genre-answer">
+            <div class="player-wrapper"></div>
+            <input type="checkbox" name="answer" value="answer-1" id="a-${index}">
+            <label class="genre-answer-check" for="a-${index}"></label>
+          </div>`;
 }

@@ -50,7 +50,7 @@ gulp.task('test', function () {
 });
 
 gulp.task('imagemin', ['copy'], function () {
-  return gulp.src('build/img/**/*.{jpg,png,gif}')
+  return gulp.src('build/img/**/*.{jpg,jpeg,png,gif}')
     .pipe(imagemin([
       imagemin.optipng({optimizationLevel: 3}),
       imagemin.jpegtran({progressive: true})
@@ -68,7 +68,9 @@ gulp.task('copy-html', function () {
 gulp.task('copy', ['copy-html', 'scripts', 'style'], function () {
   return gulp.src([
     'fonts/**/*.{woff,woff2}',
-    'img/*.*'
+    'img/*.*',
+    'img/artists/*.*',
+    'sound/*.*'
   ], {base: '.'})
     .pipe(gulp.dest('build'));
 });
