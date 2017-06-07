@@ -35,9 +35,9 @@ function createArtist(artist, image) {
 
 //  ***********
 const songs = {};
-createSong(LANA_DEL_REY, `Blue Jeans (RAC Remix)`, `sound/Lana Del Rey - Blue Jeans (RAC Remix).mp3`, INDIE_GENRE_NAME);
-createSong(LYKKE_LI, `Breaking It Up (Familjen Remix)`, `sound/Lykke Li - Breaking It Up (Familjen Remix).mp3`, INDIE_GENRE_NAME);
-createSong(JUSTICE, `Justice - D.A.N.C.E.`, `sound/Justice - D.A.N.C.E..mp3`, HOUSE_GENRE_NAME);
+createSong(LANA_DEL_REY, `Blue Jeans (RAC Remix)`, `sound/2.mp3`, INDIE_GENRE_NAME);
+createSong(LYKKE_LI, `Breaking It Up (Familjen Remix)`, `sound/3.mp3`, INDIE_GENRE_NAME);
+createSong(JUSTICE, `Justice - D.A.N.C.E.`, `sound/1.mp3`, HOUSE_GENRE_NAME);
 function createSong(artist, song, file, genre) {
   songs[song] = {
     'artistName': artist,
@@ -48,6 +48,12 @@ function createSong(artist, song, file, genre) {
 }
 
 const questions = [];
+
+createQuestion(GENRE_QUESTION_TYPE, genres[INDIE_GENRE_NAME], new Set([
+  createGenreAnser(true, songs[`Blue Jeans (RAC Remix)`]),
+  createGenreAnser(true, songs[`Breaking It Up (Familjen Remix)`]),
+  createGenreAnser(false, songs[`Justice - D.A.N.C.E.`])
+]));
 
 createQuestion(ARTIST_QUESTION_TYPE, songs[`Blue Jeans (RAC Remix)`], new Set([
   createArtistAnswer(true, artists[LANA_DEL_REY]),
@@ -61,11 +67,7 @@ createQuestion(ARTIST_QUESTION_TYPE, songs[`Justice - D.A.N.C.E.`], new Set([
   createArtistAnswer(false, artists[LANA_DEL_REY])
 ]));
 
-createQuestion(GENRE_QUESTION_TYPE, genres[INDIE_GENRE_NAME], new Set([
-  createGenreAnser(true, songs[`Blue Jeans (RAC Remix)`]),
-  createGenreAnser(true, songs[`Breaking It Up (Familjen Remix)`]),
-  createGenreAnser(false, songs[`Justice - D.A.N.C.E.`])
-]));
+
 
 function createQuestion(type, data, answers) {
   questions.push({
