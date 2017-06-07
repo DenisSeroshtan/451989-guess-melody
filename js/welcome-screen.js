@@ -3,24 +3,24 @@
  */
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
-import artistScreen from './level-artist-screen.js';
+import * as gameData from './data.js';
 
-const screenElement = `<section class="main main--welcome">
-    <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
+const LOGO = `<section class="logo" title="${gameData.gameInfo.gameName}"><h1>${gameData.gameInfo.gameName}</h1></section>`;
+
+const screenTemplate = (gameInfo) => `<section class="main main--welcome">
+    ${LOGO}
     <button class="main-play">Начать игру</button>
     <h2 class="title main-title">Правила игры</h2>
     <p class="text main-text">
-      Правила просты&nbsp;— за&nbsp;2 минуты дать
-      максимальное количество правильных ответов.<br>
-      Удачи!
+      ${gameInfo.rules}      
     </p>
   </section>`;
 
 export default function getScreen() {
-  const screenDom = convertToHtml(screenElement);
+  const screenDom = convertToHtml(screenTemplate(gameData.gameInfo));
   let button = screenDom.querySelector(`.main-play`);
   button.onclick = () => {
-    main.screenView.showScreen(artistScreen());
+    main.screenView.showQuestion();
   };
 
   return screenDom;
