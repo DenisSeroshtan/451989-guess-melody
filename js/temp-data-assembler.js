@@ -68,7 +68,6 @@ createQuestion(ARTIST_QUESTION_TYPE, songs[`Justice - D.A.N.C.E.`], new Set([
 ]));
 
 
-
 function createQuestion(type, data, answers) {
   questions.push({
     'type': type,
