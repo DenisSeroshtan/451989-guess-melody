@@ -6,4 +6,10 @@ describe(`Array`, () => {
       assert.equal(-1, [1, 2, 3].indexOf(4));
     });
   });
+
+  describe(`bingo`, () => {
+    it(`bingo`, () => {
+      assert.equal(-1, 1);
+    });
+  });
 });
