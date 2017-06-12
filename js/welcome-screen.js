@@ -3,6 +3,8 @@
  */
 import convertToHtml from './string-to-html.js';
 import * as gameData from './data.js';
+import * as gameState from './state.js';
+import main from './main.js';
 
 const screenTemplate = (gameInfo) => `<section class="main main--welcome">
     <section class="logo" title="${gameData.gameInfo.gameName}"><h1>${gameData.gameInfo.gameName}</h1></section>
@@ -17,7 +19,8 @@ export default function getScreen() {
   const screenDom = convertToHtml(screenTemplate(gameData.gameInfo));
   let button = screenDom.querySelector(`.main-play`);
   button.onclick = () => {
-    gameData.startGame();
+    gameState.showGame();
+    main.screenView.renderState();
   };
 
   return screenDom;

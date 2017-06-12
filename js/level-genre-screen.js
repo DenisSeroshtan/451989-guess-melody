@@ -3,7 +3,7 @@
  */
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
-import * as gameData from './data.js';
+import * as gameState from './state.js';
 import timer from './timer-view';
 
 const screenTemplate = (currentQuestion) => `<section class="main main--level main--level-genre">
@@ -25,7 +25,7 @@ let answerButton;
 let currentAudio;
 
 export default function getScreen() {
-  const currentQuestion = gameData.gameState.currentQuestion;
+  const currentQuestion = gameState.getCurrentQuestion();
   const screenDom = convertToHtml(screenTemplate(currentQuestion));
 
   answers = screenDom.querySelectorAll(`.genre-answer`);
@@ -56,14 +56,15 @@ export default function getScreen() {
   answerButton.onclick = (event) => {
     event.preventDefault();
 
-    const resultAnswers = [...answers].map((item, i, array) => {
-      const answerObject = Object.assign({}, [...gameData.gameState.currentQuestion.answers][i]);
-      answerObject.selected = answers[i].querySelector(`input`).checked;
-
-      return answerObject;
+    const answerIndexes = [];
+    [...answers].forEach((item, i, array) => {
+      if (answers[i].querySelector(`input`).checked) {
+        answerIndexes.push(i);
+      }
     });
 
-    gameData.answer(...resultAnswers);
+    gameState.answer(...answerIndexes);
+    main.screenView.renderState();
   };
 
   return screenDom;
