@@ -4,8 +4,6 @@
 import * as gameData from './data.js';
 import artistScreen from './level-artist-screen.js';
 import genreScreen from './level-genre-screen.js';
-import failScreen from './level-fail-screen.js';
-import successScreen from './level-success-screen.js';
 
 export default class ScreenView {
   constructor() {
@@ -35,18 +33,4 @@ export default class ScreenView {
         break;
     }
   }
-
-  showNextQuestion() {
-    gameData.gameState.currentQuestionIndex++;
-
-    if (gameData.gameState.currentQuestionIndex >= gameData.questions.length) {
-      const jumper = Math.round(Math.random());
-      const resultScreens = [failScreen, successScreen];
-      this.showScreen(resultScreens[jumper]());
-      gameData.resetGameState();
-    } else {
-      this.showQuestion();
-    }
-  }
-
 }
