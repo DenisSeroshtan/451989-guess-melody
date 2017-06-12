@@ -3,7 +3,7 @@
  */
 import convertToHtml from './string-to-html.js';
 import * as gameData from './data.js';
-import welcomeScreen from './welcome-screen.js';
+import * as gameState from './state.js';
 import main from './main.js';
 
 const screenTemplate = () => `<section class="main main--result">
@@ -18,7 +18,8 @@ export default function getScreen() {
 
   let button = screenDom.querySelector(`.main-replay`);
   button.onclick = () => {
-    main.screenView.showScreen(welcomeScreen());
+    gameState.resetGame();
+    main.screenView.renderState();
   };
 
   return screenDom;
