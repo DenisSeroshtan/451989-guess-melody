@@ -1,11 +1,13 @@
 /**
  * Created by kleone on 30.05.2017.
  */
-import * as gameData from './data.js';
+import * as gameState from './state.js';
+
+import welcomeScreen from './welcome-screen.js';
+import successScreen from './level-success-screen';
+import failScreen from './level-fail-screen';
 import artistScreen from './level-artist-screen.js';
 import genreScreen from './level-genre-screen.js';
-import failScreen from './level-fail-screen.js';
-import successScreen from './level-success-screen.js';
 
 export default class ScreenView {
   constructor() {
@@ -22,31 +24,31 @@ export default class ScreenView {
     }
   }
 
-  showQuestion() {
-    gameData.gameState.currentQuestion = gameData.questions[gameData.gameState.currentQuestionIndex];
-    switch (gameData.gameState.currentQuestion.type) {
-      case gameData.ARTIST_QUESTION_TYPE:
+  renderState() {
+    switch (gameState.getCurrentState()) {
+      case gameState.WELCOME_STATE:
+        this.showScreen(welcomeScreen());
+        break;
+      case gameState.WIN_STATE:
+        this.showScreen(successScreen());
+        break;
+      case gameState.FAIL_STATE:
+        this.showScreen(failScreen());
+        break;
+      case gameState.GAME_STATE:
+        this.renderQuestion();
+        break;
+    }
+  }
+
+  renderQuestion() {
+    switch (gameState.getCurrentQuestion().type) {
+      case gameState.ARTIST_QUESTION_TYPE:
         this.showScreen(artistScreen());
-
         break;
-      case gameData.GENRE_QUESTION_TYPE:
+      case gameState.GENRE_QUESTION_TYPE:
         this.showScreen(genreScreen());
-
         break;
     }
   }
-
-  showNextQuestion() {
-    gameData.gameState.currentQuestionIndex++;
-
-    if (gameData.gameState.currentQuestionIndex >= gameData.questions.length) {
-      const jumper = Math.round(Math.random());
-      const resultScreens = [failScreen, successScreen];
-      this.showScreen(resultScreens[jumper]());
-      gameData.resetGameState();
-    } else {
-      this.showQuestion();
-    }
-  }
-
 }

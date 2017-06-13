@@ -26,3 +26,7 @@ export function shuffleArray(array) {
   return array;
 }
 
+export function deepCopy(object) {
+  return JSON.parse(JSON.stringify(object));
+}
+
