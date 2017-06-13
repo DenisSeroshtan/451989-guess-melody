@@ -13,7 +13,8 @@ const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
 const rollup = require('gulp-better-rollup');
 const sourcemaps = require('gulp-sourcemaps');
-const mocha = require('gulp-mocha'); // Добавим установленный gulp-mocha плагин
+const mocha = require('gulp-mocha');
+
 
 gulp.task('test', function () {
   return gulp
