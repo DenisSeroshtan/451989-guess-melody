@@ -1,26 +1,22 @@
-import * as state from 'state.js';
-import welcomeScreen from './welcome/welcome.js';
+import * as state from './state.js';
+import * as welcomeScreen from './welcome/welcome.js';
+import * as gameScreen from './game/game-screen.js';
+import * as resultScreen from './result/result-screen.js';
 
-const mainScreen = document.querySelector(`.main`);
+export function renderState() {
 
-function renderState() {
+
   switch (state.getCurrentState()) {
-    case state.WELCOME_STATE:
-      this.showScreen(welcomeScreen());
+    case state.WELCOME_SCREEN:
+      welcomeScreen.show();
       break;
-    case state.WIN_STATE:
-
+    case state.GAME_SCREEN:
+      gameScreen.show();
       break;
-    case state.FAIL_STATE:
-
-      break;
-    case state.GAME_STATE:
-
+    case state.RESULT_SCREEN:
+      resultScreen.show();
       break;
   }
 }
 
-function setView(view) {
-  mainScreen.innerHTML = ``;
-  mainScreen.appendChild(view);
-}
+renderState();

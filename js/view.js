@@ -6,8 +6,7 @@ export default class AbstractView {
 
   get element() {
     if (!this._element) {
-      this._element = this.render();
-      this.bind();
+      this.create();
     }
 
     return this._element;
@@ -21,9 +20,20 @@ export default class AbstractView {
 
   }
 
-  createElement(template){
-    const outer = document.createElement(`div`);
+  create() {
+    this._element = this.render();
+    this.bind();
+  }
+
+  createElement(template) {
+    const outer = document.createElement(`template`);
     outer.innerHTML = template;
-    return outer;
+    return outer.content;
+  }
+
+  show() {
+    const mainScreen = document.querySelector(`.main`);
+    mainScreen.innerHTML = ``;
+    mainScreen.appendChild(this.element);
   }
 }

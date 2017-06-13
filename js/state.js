@@ -3,10 +3,9 @@ import {deepCopy} from './utils.js';
 
 const questions = getTempData();
 
-export const WELCOME_STATE = 1;
-export const GAME_STATE = 2;
-export const WIN_STATE = 3;
-export const FAIL_STATE = 4;
+export const WELCOME_SCREEN = 1;
+export const GAME_SCREEN = 2;
+export const RESULT_SCREEN = 3;
 
 export const ARTIST_QUESTION_TYPE = 1;
 export const GENRE_QUESTION_TYPE = 2;
@@ -15,21 +14,33 @@ export const initState = Object.freeze({
   'time': 120,
   'life': 3,
   'currentIndex': 0,
-  'currentState': WELCOME_STATE,
+  "currentScreen": WELCOME_SCREEN,
   'questions': deepCopy(questions)
 });
 
 export let state = Object.assign({}, initState);
 
+export function isFail() {
+  if (!getTimeLeft() || !getLifes()) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export function setTime(value) {
   state.time = value;
 
   if (!state.time) {
-    failGame();
+    finishGame();
   }
 }
 
-export function getTime() {
+export function getGameTime() {
+  return initState.time - state.time;
+}
+
+export function getTimeLeft() {
   return state.time;
 }
 
@@ -39,7 +50,7 @@ export function getLifes() {
 
 
 export function getCurrentState() {
-  return state.currentState;
+  return state.currentScreen;
 }
 
 export function getCurrentQuestion() {
@@ -47,7 +58,7 @@ export function getCurrentQuestion() {
 }
 
 export function showGame() {
-  state.currentState = GAME_STATE;
+  state.currentScreen = GAME_SCREEN;
 }
 
 export function resetGame() {
@@ -55,7 +66,7 @@ export function resetGame() {
 }
 
 export function answer(...selectedIndexes) {
-  if (getCurrentState() !== GAME_STATE) {
+  if (getCurrentState() !== GAME_SCREEN) {
     return;
   }
 
@@ -74,7 +85,7 @@ export function answer(...selectedIndexes) {
     state.life--;
 
     if (state.life < 1) {
-      failGame();
+      finishGame();
     } else {
       nextQuestion();
     }
@@ -93,7 +104,7 @@ function nextQuestion() {
   state.currentIndex++;
 
   if (state.currentIndex >= state.questions.length) {
-    winGame();
+    finishGame();
   }
 }
 
@@ -113,10 +124,6 @@ function proceedCurrentAnswer() {
   return correct;
 }
 
-function failGame() {
-  state.currentState = FAIL_STATE;
-}
-
-function winGame() {
-  state.currentState = WIN_STATE;
+function finishGame() {
+  state.currentScreen = RESULT_SCREEN;
 }
