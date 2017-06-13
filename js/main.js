@@ -1,19 +1,26 @@
-/**
- * Created by kleone on 25.05.2017.
- */
-import ScreenView from './screen-view.js';
+import * as state from 'state.js';
+import welcomeScreen from './welcome/welcome.js';
 
-export default main;
+const mainScreen = document.querySelector(`.main`);
 
-class Main {
-  constructor() {
-    this.screenView = new ScreenView();
-    this.screenView.renderState();
-  }
+function renderState() {
+  switch (state.getCurrentState()) {
+    case state.WELCOME_STATE:
+      this.showScreen(welcomeScreen());
+      break;
+    case state.WIN_STATE:
 
-  init() {
+      break;
+    case state.FAIL_STATE:
 
+      break;
+    case state.GAME_STATE:
+
+      break;
   }
 }
-const main = new Main();
-main.init();
+
+function setView(view) {
+  mainScreen.innerHTML = ``;
+  mainScreen.appendChild(view);
+}
