@@ -19,7 +19,7 @@ describe(`Game Logic`, () => {
       gameState.resetGame();
       gameState.showGame();
       gameState.state.questions = deepCopy(questions);
-      questions.forEach((item, i, array) => {
+/*      questions.forEach((item, i, array) => {
         switch (item.type) {
           case gameState.GENRE_QUESTION_TYPE:
             gameState.answer(0, 1);
@@ -28,7 +28,18 @@ describe(`Game Logic`, () => {
             gameState.answer(0);
             break;
         }
-      });
+      });*/
+
+      for (let i = 0; i < questions.length; i++) {
+        switch (questions[i].type) {
+          case gameState.GENRE_QUESTION_TYPE:
+            gameState.answer(0, 1);
+            break;
+          case gameState.ARTIST_QUESTION_TYPE:
+            gameState.answer(0);
+            break;
+        }
+      }
 
       assert.equal(gameState.WIN_STATE, gameState.getCurrentState());
     });
@@ -37,7 +48,7 @@ describe(`Game Logic`, () => {
       gameState.resetGame();
       gameState.showGame();
       gameState.state.questions = deepCopy(questions);
-      questions.forEach((item, i, array) => {
+/*      questions.forEach((item, i, array) => {
         switch (item.type) {
           case gameState.GENRE_QUESTION_TYPE:
             gameState.answer(2);
@@ -46,7 +57,18 @@ describe(`Game Logic`, () => {
             gameState.answer(1);
             break;
         }
-      });
+      });*/
+
+      for (let i = 0; i < questions.length; i++) {
+        switch (questions[i].type) {
+          case gameState.GENRE_QUESTION_TYPE:
+            gameState.answer(2);
+            break;
+          case gameState.ARTIST_QUESTION_TYPE:
+            gameState.answer(1);
+            break;
+        }
+      }
 
       assert.equal(gameState.FAIL_STATE, gameState.getCurrentState());
     });
@@ -55,7 +77,7 @@ describe(`Game Logic`, () => {
       gameState.resetGame();
       gameState.showGame();
       gameState.state.questions = deepCopy(questions);
-      questions.forEach((item, i, array) => {
+/*      questions.forEach((item, i, array) => {
         switch (item.type) {
           case gameState.GENRE_QUESTION_TYPE:
             gameState.answer(2);
@@ -64,7 +86,18 @@ describe(`Game Logic`, () => {
             gameState.answer(1);
             break;
         }
-      });
+      });*/
+
+      for (let i = 0; i < questions.length; i++) {
+        switch (questions[i].type) {
+          case gameState.GENRE_QUESTION_TYPE:
+            gameState.answer(2);
+            break;
+          case gameState.ARTIST_QUESTION_TYPE:
+            gameState.answer(1);
+            break;
+        }
+      }
 
       assert.equal(0, gameState.getLifes());
     });
