@@ -15,6 +15,7 @@ const rollup = require('gulp-better-rollup');
 const sourcemaps = require('gulp-sourcemaps');
 const mocha = require('gulp-mocha');
 
+
 gulp.task('test', function () {
   return gulp
     .src(['js/**/*.test.js'], { read: false })
@@ -48,15 +49,12 @@ gulp.task('style', function () {
 });
 
 gulp.task('scripts', function () {
-  return gulp.src('js/**/*.js')
+  return gulp.src(['js/**/*.js', '!js/**/*.test.js'])
     .pipe(plumber())
 	.pipe(sourcemaps.init())
 	.pipe(rollup({}, 'iife'))
 	.pipe(sourcemaps.write(''))
     .pipe(gulp.dest('build/js/'));
-});
-
-gulp.task('test', function () {
 });
 
 gulp.task('imagemin', ['copy'], function () {

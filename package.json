@@ -7,12 +7,14 @@
     "eslint": "eslint js/",
     "build": "gulp build",
     "start": "gulp serve",
-    "test": "npm run eslint && gulp test"
+    "test": "npm run eslint && gulp test",
+    "test2": "gulp test"
   },
   "devDependencies": {
     "autoprefixer": "6.7.7",
-    "babel": "6.23.0",
     "babel-plugin-transform-es2015-modules-commonjs": "6.24.1",
+    "babel-register": "6.24.1",
+    "babel": "6.23.0",
     "browser-sync": "2.18.8",
     "css-mqpacker": "6.0.0",
     "del": "2.2.2",
