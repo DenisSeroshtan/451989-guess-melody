@@ -18,7 +18,6 @@ const screenTemplate = (currentQuestion) => `<section class="main main--level ma
       </form>
     </div>
   </section>`;
-// export default screenElement;
 
 let answers;
 let answerButton;

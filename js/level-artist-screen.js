@@ -23,7 +23,6 @@ const screenTemplate = (currentQuestion) => {
       </div>
     </section>`;
 };
-// export default screenElement;
 
 export default function getScreen() {
   const currentQuestion = gameState.getCurrentQuestion();
