@@ -3,7 +3,7 @@
  */
 import * as gameState from './state.js';
 
-import welcomeScreen from './welcome-screen.js';
+import welcomeScreen from './welcome/welcome.js';
 import successScreen from './level-success-screen';
 import failScreen from './level-fail-screen';
 import artistScreen from './level-artist-screen.js';
