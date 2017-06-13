@@ -3,34 +3,37 @@
  */
 import convertToHtml from './string-to-html.js';
 import main from './main.js';
-import * as gameData from './data.js';
+import * as gameState from './state.js';
+import timer from './timer-view';
 
 const screenTemplate = (currentQuestion) => `<section class="main main--level main--level-genre">
-    <h2 class="title">Выберите ${currentQuestion.data.description.toLowerCase()} треки</h2>
-    <form class="genre">
-      ${[...currentQuestion.answers].map((answer, index) => {
-        return createSong(index, answer);
-      })}
-      <button class="genre-answer-send" type="submit">Ответить</button>
-    </form>
+    ${timer()}
+    <div class="main-wrap">
+      <h2 class="title">Выберите ${currentQuestion.data.description.toLowerCase()} треки</h2>
+      <form class="genre">
+        ${[...currentQuestion.answers].map((answer, index) => {
+          return createSong(index, answer);
+        })}
+        <button class="genre-answer-send" type="submit">Ответить</button>
+      </form>
+    </div>
   </section>`;
-// export default screenElement;
 
 let answers;
-let sendButton;
+let answerButton;
 let currentAudio;
 
 export default function getScreen() {
-  const currentQuestion = gameData.gameState.currentQuestion;
+  const currentQuestion = gameState.getCurrentQuestion();
   const screenDom = convertToHtml(screenTemplate(currentQuestion));
 
   answers = screenDom.querySelectorAll(`.genre-answer`);
-  sendButton = screenDom.querySelector(`.genre-answer-send`);
+  answerButton = screenDom.querySelector(`.genre-answer-send`);
 
   const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
 
   for (let i = 0; i < playerWrappers.length; i++) {
-    playerWrappers[i].addEventListener(`click`, (event)=>{
+    playerWrappers[i].addEventListener(`click`, (event) => {
       event.preventDefault();
 
       if (currentAudio) {
@@ -47,12 +50,20 @@ export default function getScreen() {
     answers[i].addEventListener(`click`, answerClickHandler);
   }
 
-  sendButton.disabled = true;
+  answerButton.disabled = true;
 
-  sendButton.onclick = (event) => {
+  answerButton.onclick = (event) => {
     event.preventDefault();
 
-    main.screenView.showNextQuestion();
+    const answerIndexes = [];
+    [...answers].forEach((item, i, array) => {
+      if (answers[i].querySelector(`input`).checked) {
+        answerIndexes.push(i);
+      }
+    });
+
+    gameState.answer(...answerIndexes);
+    main.screenView.renderState();
   };
 
   return screenDom;
@@ -63,7 +74,7 @@ function answerClickHandler() {
     answers[i].removeEventListener(`click`, answerClickHandler);
   }
 
-  sendButton.disabled = false;
+  answerButton.disabled = false;
 }
 
 function createSong(index, answer) {
