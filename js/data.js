@@ -48,8 +48,8 @@ function updateTimer() {
       return;
     }
 
-    const timerMin = [...document.getElementsByClassName(`timer-value-mins`)][0];
-    const timerSec = [...document.getElementsByClassName(`timer-value-secs`)][0];
+    const timerMin = document.getElementsByClassName(`timer-value-mins`)[0];
+    const timerSec = document.getElementsByClassName(`timer-value-secs`)[0];
 
     const minutes = Math.floor(gameState.getTimeLeft() / 60);
     const seconds = gameState.getTimeLeft() - (minutes * 60);
