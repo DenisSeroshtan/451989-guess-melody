@@ -5,13 +5,13 @@ import * as gameState from './state.js';
 
 setInterval(updateTimer, 1000);
 
-const initStatistics = Object.freeze([
+const initStatistics = [
   {time: 20, answers: 10},
   {time: 32, answers: 10},
   {time: 44, answers: 10},
   {time: 20, answers: 8},
   {time: 50, answers: 7}
-]);
+];
 
 export const gameInfo = Object.freeze({
   'gameName': `Угадай Мелодию`,
@@ -21,22 +21,24 @@ export const gameInfo = Object.freeze({
 });
 
 export function getPercentHighscore(correctAnswers) {
-  const stats = Object.assign([], initStatistics);
-  stats.push({answers: correctAnswers, time: gameState.getGameTime(), isPlayerResult: true});
+  initStatistics.push({answers: correctAnswers, time: gameState.getGameTime(), isPlayerResult: true});
 
-  stats.sort((a, b) => {
+  initStatistics.sort((a, b) => {
     return b.answers - a.answers || a.time - b.time;
   });
 
-  const playerIndex = stats.findIndex((item) => {
+  const playerIndex = initStatistics.findIndex((item) => {
     if (item.isPlayerResult) {
+      delete item.isPlayerResult;
       return true;
     }
 
     return false;
   });
 
-  const result = 100 - ((playerIndex + 1) / stats.length) * 100;
+  console.log(initStatistics);
+
+  const result = 100 - ((playerIndex + 1) / initStatistics.length) * 100;
   return Math.floor(result) + `%`;
 }
 
