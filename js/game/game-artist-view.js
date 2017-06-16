@@ -45,8 +45,8 @@ export default class GameArtistView extends AbstractView {
     const artistSong = currentQuestion.data;
     window.initializePlayer(player, artistSong.file, true, true);
 
-    for (let i = 0; i < answers.length; i++) {
-      answers[i].addEventListener(`click`, (event) => {
+    answers.forEach((item) => {
+      item.addEventListener(`click`, (event) => {
         event.preventDefault();
 
         const wrapperElement = event.currentTarget;
@@ -54,7 +54,7 @@ export default class GameArtistView extends AbstractView {
 
         this.onAnswer(index);
       });
-    }
+    });
   }
 
 

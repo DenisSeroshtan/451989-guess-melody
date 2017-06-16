@@ -39,25 +39,25 @@ export default class GameGenreView extends AbstractView {
 
     const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
 
-    for (let i = 0; i < playerWrappers.length; i++) {
-      playerWrappers[i].addEventListener(`click`, (event) => {
+    playerWrappers.forEach((item, i) => {
+      item.addEventListener(`click`, (event) => {
         event.preventDefault();
 
         if (this.currentAudio) {
           this.currentAudio.pause();
         }
 
-        this.currentAudio = playerWrappers[i].querySelectorAll(`audio`)[0];
+        this.currentAudio = item.querySelectorAll(`audio`)[0];
       });
 
-      window.initializePlayer(playerWrappers[i], [...currentQuestion.answers][i].file, false, true);
-    }
+      window.initializePlayer(item, [...currentQuestion.answers][i].file, false, true);
+    });
 
-    for (let i = 0; i < this.answers.length; i++) {
-      this.answers[i].addEventListener(`click`, () => {
+    this.answers.forEach((item) => {
+      item.addEventListener(`click`, () => {
         this.answerClickHandler();
       });
-    }
+    });
 
     this.answerButton.disabled = true;
 
