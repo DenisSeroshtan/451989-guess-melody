@@ -35,9 +35,9 @@ export default class ResultFailView extends AbstractView {
     const secs = time - (mins * 60);
 
     if (mins) {
-      return mins + ` минуты ` + secs + ` секунды`;
+      return `${mins} минуты ${secs} секунды`;
     } else {
-      return secs + ` секунды`;
+      return `${secs} секунды`;
     }
   }
 }
