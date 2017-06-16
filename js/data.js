@@ -36,8 +36,6 @@ export function getPercentHighscore(correctAnswers) {
     return false;
   });
 
-  console.log(initStatistics);
-
   const result = 100 - ((playerIndex + 1) / initStatistics.length) * 100;
   return Math.floor(result) + `%`;
 }
