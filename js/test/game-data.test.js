@@ -9,12 +9,12 @@ const questions = [artistQuestion, genreQuestion, artistQuestion, artistQuestion
 describe(`Game Logic Test`, () => {
   gameState.state.questions = deepCopy(questions);
 
-  it(`state should GAME_STATE === 2`, () => {
+  it(`gamescreen should be === 2`, () => {
     gameState.showGame();
-    assert.equal(gameState.GAME_STATE, gameState.getCurrentState());
+    assert.equal(gameState.GAME_SCREEN, gameState.getCurrentState());
   });
 
-  it(`All answers correct, state should be WIN_STATE === 3`, () => {
+  it(`All answers correct, game should be succeas`, () => {
     gameState.resetGame();
     gameState.showGame();
     gameState.state.questions = deepCopy(questions);
@@ -29,10 +29,10 @@ describe(`Game Logic Test`, () => {
       }
     });
 
-    assert.equal(gameState.WIN_STATE, gameState.getCurrentState());
+    assert.equal(false, gameState.isFail());
   });
 
-  it(`All answers incorrect, state should be FAIL_STATE === 4`, () => {
+  it(`All answers incorrect, game should be fail`, () => {
     gameState.resetGame();
     gameState.showGame();
     gameState.state.questions = deepCopy(questions);
@@ -47,7 +47,7 @@ describe(`Game Logic Test`, () => {
       }
     });
 
-    assert.equal(gameState.FAIL_STATE, gameState.getCurrentState());
+    assert.equal(true, gameState.isFail());
   });
 
   it(`All answers incorrect, lifes should be 0`, () => {
@@ -68,11 +68,11 @@ describe(`Game Logic Test`, () => {
     assert.equal(0, gameState.getLifes());
   });
 
-  it(`Time left, state should be FAIL_STATE === 4`, () => {
+  it(`Time left, game should be fail`, () => {
     gameState.resetGame();
     gameState.showGame();
     gameState.setTime(0);
 
-    assert.equal(gameState.FAIL_STATE, gameState.getCurrentState());
+    assert.equal(true, gameState.isFail());
   });
 });
