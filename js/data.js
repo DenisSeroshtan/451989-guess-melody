@@ -2,17 +2,16 @@
  * Created by kleone on 01.06.2017.
  */
 import * as gameState from './state.js';
-import main from './main.js';
 
 setInterval(updateTimer, 1000);
 
-const initStatistics = Object.freeze([
+const initStatistics = [
   {time: 20, answers: 10},
   {time: 32, answers: 10},
   {time: 44, answers: 10},
   {time: 20, answers: 8},
   {time: 50, answers: 7}
-]);
+];
 
 export const gameInfo = Object.freeze({
   'gameName': `Угадай Мелодию`,
@@ -22,39 +21,38 @@ export const gameInfo = Object.freeze({
 });
 
 export function getPercentHighscore(correctAnswers) {
-  const stats = Object.assign([], initStatistics);
-  stats.push({answers: correctAnswers, time: gameState.state.time, isPlayerResult: true});
+  initStatistics.push({answers: correctAnswers, time: gameState.getGameTime(), isPlayerResult: true});
 
-  stats.sort((a, b) => {
-    return b.answers - a.answers || b.time - a.time;
+  initStatistics.sort((a, b) => {
+    return b.answers - a.answers || a.time - b.time;
   });
 
-  const playerIndex = stats.findIndex((item) => {
+  const playerIndex = initStatistics.findIndex((item) => {
     if (item.isPlayerResult) {
+      delete item.isPlayerResult;
       return true;
     }
 
     return false;
   });
 
-  const result = 100 - ((playerIndex + 1) / stats.length) * 100;
+  const result = 100 - ((playerIndex + 1) / initStatistics.length) * 100;
   return Math.floor(result) + `%`;
 }
 
 function updateTimer() {
-  if (gameState.getCurrentState() === gameState.GAME_STATE) {
-    gameState.setTime(gameState.getTime() - 1);
+  if (gameState.getCurrentState() === gameState.GAME_SCREEN) {
+    gameState.setTime(gameState.getTimeLeft() - 1);
 
-    if (!gameState.getTime()) {
-      main.screenView.renderState();
+    if (!gameState.getTimeLeft()) {
       return;
     }
 
-    const timerMin = [...document.getElementsByClassName(`timer-value-mins`)][0];
-    const timerSec = [...document.getElementsByClassName(`timer-value-secs`)][0];
+    const timerMin = document.getElementsByClassName(`timer-value-mins`)[0];
+    const timerSec = document.getElementsByClassName(`timer-value-secs`)[0];
 
-    const minutes = Math.floor(gameState.getTime() / 60);
-    const seconds = gameState.getTime() - (minutes * 60);
+    const minutes = Math.floor(gameState.getTimeLeft() / 60);
+    const seconds = gameState.getTimeLeft() - (minutes * 60);
 
     timerMin.innerHTML = minutes.toString().length === 1 ? `0` + minutes : minutes;
     timerSec.innerHTML = seconds.toString().length === 1 ? `0` + seconds : seconds;
