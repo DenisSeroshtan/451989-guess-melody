@@ -1,34 +1,60 @@
 /**
  * Created by kleone on 01.06.2017.
  */
-import {getTempData} from './temp-data-assembler.js';
+import * as gameState from './state.js';
 
-export const ARTIST_QUESTION_TYPE = 1;
-export const GENRE_QUESTION_TYPE = 2;
-export const questions = getTempData();
+setInterval(updateTimer, 1000);
 
-
-//  ***********
-export const initGameState = Object.freeze({
-  'time': 120,
-  "correctAnswers": 0,
-  "currentQuestion": null,
-  "currentQuestionIndex": 0
-});
-export let gameState;
-resetGameState();
+const initStatistics = [
+  {time: 20, answers: 10},
+  {time: 32, answers: 10},
+  {time: 44, answers: 10},
+  {time: 20, answers: 8},
+  {time: 50, answers: 7}
+];
 
 export const gameInfo = Object.freeze({
   'gameName': `Угадай Мелодию`,
-  'rules': `Правила просты&nbsp;— за&nbsp;${Math.round(gameState.time / 60)} минуты дать
+  'rules': `Правила просты&nbsp;— за&nbsp;${Math.round(gameState.initState.time / 60)} минуты дать
   максимальное количество правильных ответов.<br>
   Удачи!`
 });
 
-export function resetGameState() {
-  gameState = Object.assign({}, initGameState);
+export function getPercentHighscore(correctAnswers) {
+  initStatistics.push({answers: correctAnswers, time: gameState.getGameTime(), isPlayerResult: true});
+
+  initStatistics.sort((a, b) => {
+    return b.answers - a.answers || a.time - b.time;
+  });
+
+  const playerIndex = initStatistics.findIndex((item) => {
+    if (item.isPlayerResult) {
+      delete item.isPlayerResult;
+      return true;
+    }
+
+    return false;
+  });
+
+  const result = 100 - ((playerIndex + 1) / initStatistics.length) * 100;
+  return Math.floor(result) + `%`;
 }
 
-export function getPercentHighscore() {
-  return `100%`;
+function updateTimer() {
+  if (gameState.getCurrentState() === gameState.GAME_SCREEN) {
+    gameState.setTime(gameState.getTimeLeft() - 1);
+
+    if (!gameState.getTimeLeft()) {
+      return;
+    }
+
+    const timerMin = document.getElementsByClassName(`timer-value-mins`)[0];
+    const timerSec = document.getElementsByClassName(`timer-value-secs`)[0];
+
+    const minutes = Math.floor(gameState.getTimeLeft() / 60);
+    const seconds = gameState.getTimeLeft() - (minutes * 60);
+
+    timerMin.innerHTML = minutes.toString().length === 1 ? `0` + minutes : minutes;
+    timerSec.innerHTML = seconds.toString().length === 1 ? `0` + seconds : seconds;
+  }
 }
