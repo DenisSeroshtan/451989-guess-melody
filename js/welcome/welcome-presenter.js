@@ -1,5 +1,5 @@
 import WelcomeView from './welcome-view.js';
-import Application from '../application.js';
+import application from '../application.js';
 
 class WelcomePresenter {
   constructor() {
@@ -10,7 +10,7 @@ class WelcomePresenter {
     this.view.create();
     this.view.show();
     this.view.onStartClick = () => {
-      Application.showGame();
+      location.hash = application.ControllerId.GAME;
     };
   }
 }

@@ -1,7 +1,7 @@
 import GenreView from './game-genre-view.js';
 import ArtistView from './game-artist-view.js';
 import gameModel from './game-model.js';
-import Application from '../application.js';
+import application from '../application.js';
 
 class GamePresenter {
 
@@ -32,19 +32,23 @@ class GamePresenter {
     };
 
     this.model.onNextQuestion = () => {
-      Application.showGame();
+      application.showGame();
     };
 
     this.model.onFinishGame = () => {
       if (this.model.isFail) {
-        Application.showResult(null);
+        location.hash = application.ControllerId.RESULT;
       } else {
-        Application.showResult(this.model.stats);
+        location.hash = `${application.ControllerId.RESULT}=${JSON.stringify(this.model.stats)}`;
       }
 
-      clearInterval(this.timer);
-      this.model.resetGame();
+      this.destroy();
     };
+  }
+
+  destroy() {
+    clearInterval(this.timer);
+    this.model.resetGame();
   }
 
   updateTimer() {

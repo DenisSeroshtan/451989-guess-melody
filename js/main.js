@@ -1,3 +1,2 @@
-import Application from './application.js';
-
-Application.showWelcome();
+import application from './application.js';
+application.initLocation();

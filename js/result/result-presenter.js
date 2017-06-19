@@ -1,6 +1,6 @@
 import SuccessView from './result-success-view.js';
 import FailView from './result-fail-view.js';
-import Application from '../application.js';
+import application from '../application.js';
 
 class ResultPresenter {
   constructor() {
@@ -26,7 +26,7 @@ class ResultPresenter {
     this.view.show();
 
     this.view.onRestartClick = () => {
-      Application.showWelcome();
+      location.hash = application.ControllerId.WELCOME;
     };
   }
 
