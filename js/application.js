@@ -21,6 +21,10 @@ class Application {
     };
   }
 
+  showWelcome() {
+    welcome.init();
+  }
+
   showGame() {
     game.init();
   }
