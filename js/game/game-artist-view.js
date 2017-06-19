@@ -1,8 +1,13 @@
 import AbstractView from '../view.js';
-import * as state from '../state.js';
 import timer from '../timer-view';
 
 export default class GameArtistView extends AbstractView {
+  constructor(question) {
+    super();
+
+    this.question = question;
+  }
+
   get template() {
     return `<section class="main main--level main--level-artist">
       ${timer()}
@@ -13,7 +18,7 @@ export default class GameArtistView extends AbstractView {
         <h2 class="title main-title">Кто исполняет эту песню?</h2>
         <div class="player-wrapper"></div>
         <form class="main-list">
-          ${[...state.getCurrentQuestion().answers].map((answer, index) => {
+          ${[...this.question.answers].map((answer, index) => {
             return this.createAnswer(index, answer);
           })}
         </form>
@@ -36,13 +41,11 @@ export default class GameArtistView extends AbstractView {
   }
 
   bind() {
-    const currentQuestion = state.getCurrentQuestion();
-
     const screenDom = this.element;
     const answers = screenDom.querySelectorAll(`.main-answer-wrapper`);
     const player = screenDom.querySelector(`.player-wrapper`);
 
-    const artistSong = currentQuestion.data;
+    const artistSong = this.question.data;
     window.initializePlayer(player, artistSong.file, true, true);
 
     answers.forEach((item) => {
