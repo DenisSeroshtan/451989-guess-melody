@@ -35,8 +35,8 @@ function createArtist(artist, image) {
 
 //  ***********
 const songs = {};
-createSong(LANA_DEL_REY, `Blue Jeans (RAC Remix)`, `sound/2.mp3`, INDIE_GENRE_NAME);
-createSong(LYKKE_LI, `Breaking It Up (Familjen Remix)`, `sound/3.mp3`, INDIE_GENRE_NAME);
+createSong(LANA_DEL_REY, `Blue Jeans (RAC Remix)`, `sound/1.mp3`, INDIE_GENRE_NAME);
+createSong(LYKKE_LI, `Breaking It Up (Familjen Remix)`, `sound/1.mp3`, INDIE_GENRE_NAME);
 createSong(JUSTICE, `Justice - D.A.N.C.E.`, `sound/1.mp3`, HOUSE_GENRE_NAME);
 function createSong(artist, song, file, genre) {
   songs[song] = {
