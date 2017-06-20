@@ -50,6 +50,4 @@ class ResultPresenter {
     return Math.floor(result) + `%`;
   }
 }
-
-const result = new ResultPresenter();
-export default result;
+export default new ResultPresenter();

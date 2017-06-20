@@ -9,9 +9,12 @@ const questions = [artistQuestion, genreQuestion, artistQuestion, artistQuestion
 describe(`Game Logic Test`, () => {
   gameModel.questions = deepCopy(questions);
 
-  it(`All answers correct, game should be succeas`, () => {
+  beforeEach(function () {
     gameModel.resetGame();
     gameModel.questions = deepCopy(questions);
+  });
+
+  it(`All answers correct, game should be succeas`, () => {
     questions.forEach((item, i, array) => {
       switch (item.type) {
         case gameModel.GENRE_QUESTION_TYPE:
@@ -27,8 +30,6 @@ describe(`Game Logic Test`, () => {
   });
 
   it(`All answers incorrect, game should be fail`, () => {
-    gameModel.resetGame();
-    gameModel.questions = deepCopy(questions);
     questions.forEach((item, i, array) => {
       switch (item.type) {
         case gameModel.QuestionType.GENRE:
@@ -44,8 +45,6 @@ describe(`Game Logic Test`, () => {
   });
 
   it(`All answers incorrect, lifes should be 0`, () => {
-    gameModel.resetGame();
-    gameModel.questions = deepCopy(questions);
     questions.forEach((item, i, array) => {
       switch (item.type) {
         case gameModel.QuestionType.GENRE:

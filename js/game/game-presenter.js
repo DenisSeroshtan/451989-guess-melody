@@ -27,9 +27,7 @@ class GamePresenter {
 
     this.view.create();
     this.view.show();
-    this.view.onAnswer = (...answerIndexes) => {
-      this.model.answer(...answerIndexes);
-    };
+    this.view.onAnswer = (...answerIndexes) => this.model.answer(...answerIndexes);
 
     this.model.onNextQuestion = () => {
       application.showGame();
@@ -65,6 +63,5 @@ class GamePresenter {
   }
 }
 
-const game = new GamePresenter(gameModel);
-export default game;
+export default new GamePresenter(gameModel);
 

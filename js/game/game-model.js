@@ -4,11 +4,9 @@ import {deepCopy} from '../utils.js';
 class GameModel {
 
   get correctAnswers() {
-    const returnValue = this.state.questions.reduce((sum, question) => {
+    return this.state.questions.reduce((sum, question) => {
       return sum + (question.isUserAnswerCorrect ? 1 : 0);
     }, 0);
-
-    return returnValue;
   }
 
   get gameTime() {
@@ -43,11 +41,7 @@ class GameModel {
   }
 
   get isFail() {
-    if (!this.timeLeft || !this.lifes) {
-      return true;
-    } else {
-      return false;
-    }
+    return !this.timeLeft || !this.lifes;
   }
 
   constructor() {
@@ -73,8 +67,12 @@ class GameModel {
   answer(...selectedIndexes) {
     const answers = this.currentQuestion.answers;
 
-    selectedIndexes.forEach((item) => {
-      answers[item].isUserAnswer = true;
+    selectedIndexes.forEach((item) =>
+      answers[item].isUserAnswer = true
+    );
+
+    const answers = selectedIndexes.map((item) => {
+      return this.currentQuestion.answers[item];
     });
 
     this.proceedCurrentAnswer();
@@ -105,13 +103,7 @@ class GameModel {
   proceedCurrentAnswer() {
     const answers = this.currentQuestion.answers;
 
-    let correct = true;
-
-    answers.forEach((item) => {
-      if ((item.valid && !item.isUserAnswer) || (!item.valid && item.isUserAnswer)) {
-        correct = false;
-      }
-    });
+    let correct = !(answers.findIndex((item) => item.isValid && !item.isUserAnswer || !item.isValid && item.isUserAnswer) !== -1);
 
     this.currentQuestion.isUserAnswerCorrect = correct;
 
