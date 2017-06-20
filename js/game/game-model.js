@@ -65,17 +65,7 @@ class GameModel {
   }
 
   answer(...selectedIndexes) {
-    const answers = this.currentQuestion.answers;
-
-    selectedIndexes.forEach((item) =>
-      answers[item].isUserAnswer = true
-    );
-
-    const answers = selectedIndexes.map((item) => {
-      return this.currentQuestion.answers[item];
-    });
-
-    this.proceedCurrentAnswer();
+    this.proceedCurrentAnswer(selectedIndexes);
 
     if (this.currentQuestion.isUserAnswerCorrect) {
       this.nextQuestion();
@@ -100,10 +90,14 @@ class GameModel {
     }
   }
 
-  proceedCurrentAnswer() {
+  proceedCurrentAnswer(answerIndexes) {
     const answers = this.currentQuestion.answers;
 
-    let correct = !(answers.findIndex((item) => item.isValid && !item.isUserAnswer || !item.isValid && item.isUserAnswer) !== -1);
+    answerIndexes.forEach((item) => {
+      answers[item].isUserAnswer = true;
+    });
+
+    let correct = !(answers.findIndex((item, i) => item.isValid && !item.isUserAnswer || !item.isValid && item.isUserAnswer) !== -1);
 
     this.currentQuestion.isUserAnswerCorrect = correct;
 
