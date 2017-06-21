@@ -54,7 +54,6 @@ export default class GameArtistView extends AbstractView {
 
         const wrapperElement = event.currentTarget;
         const index = wrapperElement.querySelector(`.main-answer-r`).value;
-
         this.onAnswer(index);
       });
     });

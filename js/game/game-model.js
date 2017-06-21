@@ -92,15 +92,12 @@ class GameModel {
 
   proceedCurrentAnswer(answerIndexes) {
     const answers = this.currentQuestion.answers;
-
     answerIndexes.forEach((item) => {
       answers[item].isUserAnswer = true;
     });
 
-    let correct = !(answers.findIndex((item, i) => item.isValid && !item.isUserAnswer || !item.isValid && item.isUserAnswer) !== -1);
-
+    let correct = answers.findIndex((item, i) => item.isValid && !item.isUserAnswer || !item.isValid && item.isUserAnswer) <= 0;
     this.currentQuestion.isUserAnswerCorrect = correct;
-
     return correct;
   }
 
