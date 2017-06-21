@@ -35,18 +35,20 @@ class Application {
   }
 
   getRawHashString(hash) {
+    const index = hash.indexOf(`=`);
     let returnString = hash.replace(`#`, ``);
-    if (returnString.indexOf(`=`) > 0) {
-      returnString = returnString.substr(0, returnString.indexOf(`=`));
+    if (index > 0) {
+      returnString = returnString.substr(0, index);
     }
 
     return returnString;
   }
 
   getJSONHashString(hash) {
+    const index = hash.indexOf(`=`);
     let returnString = hash.replace(`#`, ``);
-    if (returnString.indexOf(`=`) > 0) {
-      returnString = returnString.substr(returnString.indexOf(`=`) + 1);
+    if (index > 0) {
+      returnString = returnString.substr(index + 1);
     }
 
     try {
