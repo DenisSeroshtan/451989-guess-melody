@@ -1,17 +1,23 @@
 import AbstractView from '../view.js';
-import * as state from '../state.js';
 import timer from '../timer-view';
 
 export default class GameGenreView extends AbstractView {
+
+  constructor(question) {
+    super();
+
+    this.question = question;
+  }
+
   get template() {
     return `<section class="main main--level main--level-genre">
     ${timer()}
     <div class="main-wrap">
-      <h2 class="title">Выберите ${state.getCurrentQuestion().data.description.toLowerCase()} треки</h2>
+      <h2 class="title">Выберите ${this.question.data.description.toLowerCase()} треки</h2>
       <form class="genre">
-        ${[...state.getCurrentQuestion().answers].map((answer, index) => {
-          return this.createSong(index, answer);
-        })}
+        ${[...this.question.answers].map((answer, index) =>
+           this.createSong(index, answer)
+        )}
         <button class="genre-answer-send" type="submit">Ответить</button>
       </form>
     </div>
@@ -31,7 +37,6 @@ export default class GameGenreView extends AbstractView {
   }
 
   bind() {
-    const currentQuestion = state.getCurrentQuestion();
     const screenDom = this.element;
 
     this.answers = screenDom.querySelectorAll(`.genre-answer`);
@@ -50,7 +55,7 @@ export default class GameGenreView extends AbstractView {
         this.currentAudio = item.querySelectorAll(`audio`)[0];
       });
 
-      window.initializePlayer(item, [...currentQuestion.answers][i].file, false, true);
+      window.initializePlayer(item, [...this.question.answers][i].file, false, true);
     });
 
     this.answers.forEach((item) => {
