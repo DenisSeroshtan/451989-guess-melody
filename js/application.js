@@ -1,6 +1,7 @@
 import welcome from './welcome/welcome-presenter.js';
 import game from './game/game-presenter.js';
 import result from './result/result-presenter.js';
+import model from './game/game-model.js';
 
 class Application {
   constructor() {
@@ -19,6 +20,8 @@ class Application {
     window.onhashchange = () => {
       this.initLocation();
     };
+
+    model.load().then(data => {console.log(data)});
   }
 
   showWelcome() {

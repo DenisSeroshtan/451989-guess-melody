@@ -1,7 +1,25 @@
 import {getTempData} from '../temp-data-assembler.js';
 import {deepCopy} from '../utils.js';
+import BaseModel from '../base-model.js';
+import {BaseAdapter} from '../base-model.js';
+import {GAME_DATA_URL} from '../data.js';
 
-class GameModel {
+const gameModelAdapter = new class extends BaseAdapter {
+  preprocess(data) {
+    return data;
+  }
+
+  toServer(data) {
+    return JSON.stringify(data);
+  }
+}();
+
+class GameModel extends BaseModel {
+
+  get urlRead() {
+    console.log("url : "+GAME_DATA_URL);
+    return GAME_DATA_URL;
+  }
 
   get correctAnswers() {
     return this.state.questions.reduce((sum, question) => {
@@ -20,6 +38,7 @@ class GameModel {
       this.onFinishGame();
     }
   }
+
   get timeLeft() {
     return this.state.time;
   }
@@ -45,6 +64,8 @@ class GameModel {
   }
 
   constructor() {
+    super();
+
     this.QuestionType = {
       ARTIST: 1,
       GENRE: 2
@@ -107,6 +128,10 @@ class GameModel {
 
   onNextQuestion() {
 
+  }
+
+  load() {
+    return super.load(gameModelAdapter);
   }
 }
 
