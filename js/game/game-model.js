@@ -1,8 +1,6 @@
-import {getTempData} from '../temp-data-assembler.js';
 import {deepCopy} from '../utils.js';
 import BaseModel from '../base-model.js';
 import {BaseAdapter} from '../base-model.js';
-import {GAME_DATA_URL} from '../data.js';
 
 const gameModelAdapter = new class extends BaseAdapter {
   constructor() {
@@ -42,7 +40,7 @@ const gameModelAdapter = new class extends BaseAdapter {
 class GameModel extends BaseModel {
 
   get urlRead() {
-    return GAME_DATA_URL;
+    return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/questions`;
   }
 
   get correctAnswers() {

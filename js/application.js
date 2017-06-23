@@ -34,6 +34,8 @@ class Application {
     };
   }
 
+  init() {}
+
   showWelcome() {
     welcome.init();
   }
