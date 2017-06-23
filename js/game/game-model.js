@@ -5,19 +5,43 @@ import {BaseAdapter} from '../base-model.js';
 import {GAME_DATA_URL} from '../data.js';
 
 const gameModelAdapter = new class extends BaseAdapter {
+  constructor() {
+    super();
+  }
+
   preprocess(data) {
-    return data;
+    return data.map((item) => {
+      switch (item.type) {
+        case `artist`:
+          return {type: 1, data: {file: item.src}, answers: gameModelAdapter.proceedArtistAnswers(item.answers)};
+        case `genre`:
+          return {type: 2, data: item.question, answers: gameModelAdapter.proceedGenreAnswers(item.answers, item.genre)};
+      }
+
+      return {};
+    });
   }
 
   toServer(data) {
     return JSON.stringify(data);
+  }
+
+  proceedArtistAnswers(answers) {
+    return answers.map((item) => {
+      return {valid: item.isCorrect, artistName: item.title, image: item.image.url};
+    });
+  }
+
+  proceedGenreAnswers(answers, correctGenre) {
+    return answers.map((item) => {
+      return {valid: item.genre === correctGenre ? true : false, file: item.src};
+    });
   }
 }();
 
 class GameModel extends BaseModel {
 
   get urlRead() {
-    console.log("url : "+GAME_DATA_URL);
     return GAME_DATA_URL;
   }
 
@@ -71,7 +95,7 @@ class GameModel extends BaseModel {
       GENRE: 2
     };
 
-    this.questions = getTempData();
+    this.questions = [];
     this.initState = Object.freeze({
       'time': 120,
       'life': 3,

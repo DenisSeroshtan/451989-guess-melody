@@ -11,17 +11,27 @@ class Application {
       RESULT: `result`
     };
 
+    window.onhashchange = () => {
+      this.initLocation();
+    };
+
+    const preloaderRemove = this.showWelcome;
+
+    model.load()
+      .then((data) => this.setup(data))
+      .then(preloaderRemove)
+      .then(() => this.initLocation())
+      .catch(window.console.error);
+  }
+
+  setup(questions) {
+    model.questions = questions;
+
     this.routes = {
       [this.ControllerId.WELCOME]: welcome,
       [this.ControllerId.GAME]: game,
       [this.ControllerId.RESULT]: result
     };
-
-    window.onhashchange = () => {
-      this.initLocation();
-    };
-
-    model.load().then(data => {console.log(data)});
   }
 
   showWelcome() {
