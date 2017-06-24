@@ -1,7 +1,47 @@
-import {getTempData} from '../temp-data-assembler.js';
 import {deepCopy} from '../utils.js';
+import BaseModel from '../base-model.js';
+import {BaseAdapter} from '../base-model.js';
 
-class GameModel {
+const gameModelAdapter = new class extends BaseAdapter {
+  constructor() {
+    super();
+  }
+
+  preprocess(data) {
+    return data.map((item) => {
+      switch (item.type) {
+        case `artist`:
+          return {type: 1, data: {file: item.src}, answers: gameModelAdapter.proceedArtistAnswers(item.answers)};
+        case `genre`:
+          return {type: 2, data: item.question, answers: gameModelAdapter.proceedGenreAnswers(item.answers, item.genre)};
+      }
+
+      return {};
+    });
+  }
+
+  toServer(data) {
+    return JSON.stringify(data);
+  }
+
+  proceedArtistAnswers(answers) {
+    return answers.map((item) => {
+      return {valid: item.isCorrect, artistName: item.title, image: item.image.url};
+    });
+  }
+
+  proceedGenreAnswers(answers, correctGenre) {
+    return answers.map((item) => {
+      return {valid: item.genre === correctGenre ? true : false, file: item.src};
+    });
+  }
+}();
+
+class GameModel extends BaseModel {
+
+  get urlRead() {
+    return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/questions`;
+  }
 
   get correctAnswers() {
     return this.state.questions.reduce((sum, question) => {
@@ -20,6 +60,7 @@ class GameModel {
       this.onFinishGame();
     }
   }
+
   get timeLeft() {
     return this.state.time;
   }
@@ -45,12 +86,14 @@ class GameModel {
   }
 
   constructor() {
+    super();
+
     this.QuestionType = {
       ARTIST: 1,
       GENRE: 2
     };
 
-    this.questions = getTempData();
+    this.questions = [];
     this.initState = Object.freeze({
       'time': 120,
       'life': 3,
@@ -107,6 +150,10 @@ class GameModel {
 
   onNextQuestion() {
 
+  }
+
+  load() {
+    return super.load(gameModelAdapter);
   }
 }
 
