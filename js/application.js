@@ -46,24 +46,30 @@ class Application {
 
   initLocation() {
     const params = this.getJSONHashString(location.hash);
+
+    console.log(this.getRawHashString(location.hash));
+    console.log(location.hash);
+
     this.changeController(this.getRawHashString(location.hash), params);
   }
 
   getRawHashString(hash) {
-    const index = hash.indexOf(`=`);
     let returnString = hash.replace(`#`, ``);
+
+    const index = hash.indexOf(`=`);
     if (index > 0) {
-      returnString = returnString.substr(0, index);
+      returnString = returnString.substr(0, index - 1);
     }
 
     return returnString;
   }
 
   getJSONHashString(hash) {
-    const index = hash.indexOf(`=`);
     let returnString = hash.replace(`#`, ``);
+    const index = hash.indexOf(`=`);
+
     if (index > 0) {
-      returnString = returnString.substr(index + 1);
+      returnString = returnString.substr(index);
     }
 
     try {

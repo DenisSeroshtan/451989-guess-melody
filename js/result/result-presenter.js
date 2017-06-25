@@ -1,6 +1,7 @@
 import SuccessView from './result-success-view.js';
 import FailView from './result-fail-view.js';
 import application from '../application.js';
+import resultModel from './result-model.js';
 
 class ResultPresenter {
   constructor() {
@@ -11,6 +12,13 @@ class ResultPresenter {
       {time: 20, answers: 8},
       {time: 50, answers: 7}
     ];
+
+    console.log('BINGO!');
+
+    resultModel.load().then((data) => {
+      console.log('bingo!');
+      console.log(data);
+    });
   }
 
   init(stats) {
