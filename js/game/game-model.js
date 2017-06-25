@@ -75,7 +75,7 @@ class GameModel extends BaseModel {
 
   get stats() {
     const stats = {};
-    stats.correctAnswers = this.correctAnswers;
+    stats.answers = this.correctAnswers;
     stats.time = this.gameTime;
 
     return stats;

@@ -13,7 +13,7 @@ export default class ResultFailView extends AbstractView {
     return `<section class="main main--result">
     <section class="logo" title="${data.gameInfo.gameName}"><h1>${data.gameInfo.gameName}</h1></section>
     <h2 class="title">Вы настоящий меломан!</h2>
-    <div class="main-stat">За&nbsp;${this.getTimeString()}<br>вы&nbsp;отгадали ${this.stats.correctAnswers}&nbsp;мелодии</div>
+    <div class="main-stat">За&nbsp;${this.getTimeString()}<br>вы&nbsp;отгадали ${this.stats.answers}&nbsp;мелодии</div>
     <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${this.stats.percentHighscore}&nbsp;игроков</span>
     <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
     </section>`;

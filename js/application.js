@@ -2,6 +2,7 @@ import welcome from './welcome/welcome-presenter.js';
 import game from './game/game-presenter.js';
 import result from './result/result-presenter.js';
 import model from './game/game-model.js';
+import resultModel from './result/result-model.js';
 
 class Application {
   constructor() {
@@ -19,7 +20,13 @@ class Application {
 
     model.load()
       .then((data) => this.setup(data))
-      .then(preloaderRemove)
+      .then(() => {
+        return resultModel.load();
+      })
+      .then((stats) => {
+        resultModel.stats = stats;
+      })
+      .then(preloaderRemove())
       .then(() => this.initLocation())
       .catch(window.console.error);
   }
@@ -34,7 +41,8 @@ class Application {
     };
   }
 
-  init() {}
+  init() {
+  }
 
   showWelcome() {
     welcome.init();
@@ -46,9 +54,6 @@ class Application {
 
   initLocation() {
     const params = this.getJSONHashString(location.hash);
-
-    console.log(this.getRawHashString(location.hash));
-    console.log(location.hash);
 
     this.changeController(this.getRawHashString(location.hash), params);
   }

@@ -4,28 +4,11 @@ import application from '../application.js';
 import resultModel from './result-model.js';
 
 class ResultPresenter {
-  constructor() {
-    this.initStatistics = [
-      {time: 20, answers: 10},
-      {time: 32, answers: 10},
-      {time: 44, answers: 10},
-      {time: 20, answers: 8},
-      {time: 50, answers: 7}
-    ];
+  init(userStat) {
+    if (userStat) {
+      resultModel.send(userStat);
+      this.view = new SuccessView(Object.assign({}, userStat, {percentHighscore: this.getPercentHighscore(userStat)}));
 
-    console.log('BINGO!');
-
-    resultModel.load().then((data) => {
-      console.log('bingo!');
-      console.log(data);
-    });
-  }
-
-  init(stats) {
-    if (stats) {
-      stats.percentHighscore = this.getPercentHighscore(stats.correctAnswers, stats.time);
-
-      this.view = new SuccessView(stats);
     } else {
       this.view = new FailView();
     }
@@ -38,14 +21,19 @@ class ResultPresenter {
     };
   }
 
-  getPercentHighscore(correctAnswers, time) {
-    this.initStatistics.push({answers: correctAnswers, time, isPlayerResult: true});
+  getPercentHighscore(userStat) {
+    userStat.isPlayerResult = true;
 
-    this.initStatistics.sort((a, b) => {
-      return b.answers - a.answers || a.time - b.time;
+    const serverStats = resultModel.stats;
+
+    serverStats.push(userStat);
+
+    serverStats.sort((a, b) => {
+      // return b.answers - a.answers || a.time - b.time;
+      return b.answers - a.answers;
     });
 
-    const playerIndex = this.initStatistics.findIndex((item) => {
+    const playerIndex = serverStats.findIndex((item) => {
       if (item.isPlayerResult) {
         delete item.isPlayerResult;
         return true;
@@ -54,7 +42,7 @@ class ResultPresenter {
       return false;
     });
 
-    const result = 100 - ((playerIndex + 1) / this.initStatistics.length) * 100;
+    const result = 100 - ((playerIndex) / serverStats.length) * 100;
     return Math.floor(result) + `%`;
   }
 }
