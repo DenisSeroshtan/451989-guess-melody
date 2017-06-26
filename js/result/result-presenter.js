@@ -25,17 +25,15 @@ class ResultPresenter {
     userStat.isPlayerResult = true;
 
     const serverStats = resultModel.stats;
-
     serverStats.push(userStat);
 
     serverStats.sort((a, b) => {
-      // return b.answers - a.answers || a.time - b.time;
-      return b.answers - a.answers;
+      return b.answers - a.answers || a.time - b.time;
     });
 
     const playerIndex = serverStats.findIndex((item) => {
       if (item.isPlayerResult) {
-        delete item.isPlayerResult;
+        item.isPlayerResult = false;
         return true;
       }
 

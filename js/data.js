@@ -3,7 +3,9 @@
  */
 import gameModel from './game/game-model.js';
 
-export const USERNAME = `451989`;
+const USERNAME = `451989`;
+export const SERVER_URL = `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/stats/${USERNAME}`;
+
 
 export const gameInfo = Object.freeze({
   'gameName': `Угадай Мелодию`,

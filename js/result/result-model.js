@@ -1,9 +1,14 @@
 import BaseModel from '../base-model.js';
 import {BaseAdapter} from '../base-model.js';
-import {USERNAME} from '../data.js';
+import {SERVER_URL} from '../data.js';
+
 
 const resultAdapter = new class extends BaseAdapter {
   preprocess(data) {
+    if (!data) {
+      return [];
+    }
+
     data.forEach((item, index) => {
       if (!item.hasOwnProperty(`answers`) || !item.hasOwnProperty(`time`)) {
         data.splice(index, 1);
@@ -25,11 +30,11 @@ class ResultModel extends BaseModel {
   }
 
   get urlRead() {
-    return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/stats/${USERNAME}`;
+    return SERVER_URL;
   }
 
   get urlWrite() {
-    return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/stats/${USERNAME}`;
+    return SERVER_URL;
   }
 
   send(data) {

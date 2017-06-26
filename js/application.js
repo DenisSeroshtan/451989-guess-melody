@@ -22,13 +22,14 @@ class Application {
       .then((data) => this.setup(data))
       .then(() => {
         return resultModel.load();
+      }).catch(()=>{
+        return [];
       })
       .then((stats) => {
         resultModel.stats = stats;
-      })
-      .then(preloaderRemove())
-      .then(() => this.initLocation())
-      .catch(window.console.error);
+        preloaderRemove();
+        this.initLocation();
+      }).catch(window.console.error);
   }
 
   setup(questions) {
