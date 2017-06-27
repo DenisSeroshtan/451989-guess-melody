@@ -2,6 +2,7 @@ import welcome from './welcome/welcome-presenter.js';
 import game from './game/game-presenter.js';
 import result from './result/result-presenter.js';
 import model from './game/game-model.js';
+import resultModel from './result/result-model.js';
 
 class Application {
   constructor() {
@@ -19,9 +20,16 @@ class Application {
 
     model.load()
       .then((data) => this.setup(data))
-      .then(preloaderRemove)
-      .then(() => this.initLocation())
-      .catch(window.console.error);
+      .then(() => {
+        return resultModel.load();
+      }).catch(()=>{
+        return [];
+      })
+      .then((stats) => {
+        resultModel.stats = stats;
+        preloaderRemove();
+        this.initLocation();
+      }).catch(window.console.error);
   }
 
   setup(questions) {
@@ -34,7 +42,8 @@ class Application {
     };
   }
 
-  init() {}
+  init() {
+  }
 
   showWelcome() {
     welcome.init();
@@ -46,24 +55,27 @@ class Application {
 
   initLocation() {
     const params = this.getJSONHashString(location.hash);
+
     this.changeController(this.getRawHashString(location.hash), params);
   }
 
   getRawHashString(hash) {
-    const index = hash.indexOf(`=`);
     let returnString = hash.replace(`#`, ``);
+
+    const index = hash.indexOf(`=`);
     if (index > 0) {
-      returnString = returnString.substr(0, index);
+      returnString = returnString.substr(0, index - 1);
     }
 
     return returnString;
   }
 
   getJSONHashString(hash) {
-    const index = hash.indexOf(`=`);
     let returnString = hash.replace(`#`, ``);
+    const index = hash.indexOf(`=`);
+
     if (index > 0) {
-      returnString = returnString.substr(index + 1);
+      returnString = returnString.substr(index);
     }
 
     try {
