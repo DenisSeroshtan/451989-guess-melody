@@ -139,7 +139,7 @@ class GameModel extends BaseModel {
       answers[item].isUserAnswer = true;
     });
 
-    let correct = answers.findIndex((item, i) => item.isValid && !item.isUserAnswer || !item.isValid && item.isUserAnswer) <= 0;
+    const correct = answers.findIndex((item, i) => item.isValid && !item.isUserAnswer || !item.isValid && item.isUserAnswer) <= 0;
     this.currentQuestion.isUserAnswerCorrect = correct;
     return correct;
   }

@@ -1,5 +1,4 @@
 import AbstractView from '../view.js';
-import timer from '../timer-view';
 
 export default class GameGenreView extends AbstractView {
 
@@ -11,7 +10,6 @@ export default class GameGenreView extends AbstractView {
 
   get template() {
     return `<section class="main main--level main--level-genre">
-    ${timer()}
     <div class="main-wrap">
       <h2 class="title">${this.question.data.toLowerCase()}</h2>
       <form class="genre">
@@ -26,10 +24,10 @@ export default class GameGenreView extends AbstractView {
 
   createSong(index, answer) {
     return `<div class="genre-answer">
-            <div class="player-wrapper"></div>
-            <input type="checkbox" name="answer" value="answer-1" id="a-${index}">
-            <label class="genre-answer-check" for="a-${index}"></label>
-          </div>`;
+      <div class="player-wrapper"></div>
+        <input type="checkbox" name="answer" value="answer-1" id="a-${index}">
+        <label class="genre-answer-check" for="a-${index}"></label>
+      </div>`;
   }
 
   onAnswer(...indexes) {

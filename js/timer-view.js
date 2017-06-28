@@ -1,9 +1,4 @@
-/**
- * Created by kleone on 30.05.2017.
- */
-import * as gameData from './data.js';
-
-const screenTemplate = (gameInfo) => `
+const screenTemplate = () => `
   <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
     <circle
     cx="390" cy="390" r="370"
@@ -17,6 +12,8 @@ const screenTemplate = (gameInfo) => `
     </div>
   </svg>`;
 
-export default function getHtml() {
-  return screenTemplate(gameData);
+export default function getElement() {
+  const outer = document.createElement(`template`);
+  outer.innerHTML = screenTemplate();
+  return outer.content;
 }

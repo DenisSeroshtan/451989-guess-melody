@@ -10,12 +10,6 @@ class GamePresenter {
   }
 
   init() {
-    if (this.model.state.currentIndex === 0) {
-      this.timer = setInterval(() =>
-        this.updateTimer()
-      , 1000);
-    }
-
     switch (this.model.currentQuestion.type) {
       case this.model.QuestionType.ARTIST:
         this.view = new ArtistView(this.model.currentQuestion);
@@ -42,6 +36,14 @@ class GamePresenter {
 
       this.destroy();
     };
+
+    if (this.model.state.currentIndex === 0) {
+      application.initTimerView(this.model.timeLeft);
+
+      this.timer = setInterval(() =>
+          this.updateTimer()
+        , 1000);
+    }
   }
 
   destroy() {
@@ -51,15 +53,6 @@ class GamePresenter {
 
   updateTimer() {
     this.model.timeLeft--;
-
-    const timerMin = document.getElementsByClassName(`timer-value-mins`)[0];
-    const timerSec = document.getElementsByClassName(`timer-value-secs`)[0];
-
-    const minutes = Math.floor(this.model.timeLeft / 60);
-    const seconds = this.model.timeLeft - (minutes * 60);
-
-    timerMin.innerHTML = minutes.toString().length === 1 ? `0${minutes}` : minutes;
-    timerSec.innerHTML = seconds.toString().length === 1 ? `0${seconds}` : seconds;
   }
 }
 

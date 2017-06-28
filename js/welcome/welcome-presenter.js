@@ -12,8 +12,9 @@ class WelcomePresenter {
     this.view.onStartClick = () => {
       location.hash = application.ControllerId.GAME;
     };
+
+    application.destroyTimerView();
   }
 }
 
-const welcome = new WelcomePresenter();
-export default welcome;
+export default new WelcomePresenter();
