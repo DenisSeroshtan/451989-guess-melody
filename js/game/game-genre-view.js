@@ -40,7 +40,7 @@ export default class GameGenreView extends AbstractView {
     this.answers = screenDom.querySelectorAll(`.genre-answer`);
     this.answerButton = screenDom.querySelector(`.genre-answer-send`);
 
-    const playerWrappers = [...screenDom.querySelectorAll(`.player-wrapper`)];
+    const playerWrappers = Array.prototype.slice.call(screenDom.querySelectorAll(`.player-wrapper`), 0);
 
     playerWrappers.forEach((item, i) => {
       item.addEventListener(`click`, (event) => {
