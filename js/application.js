@@ -44,6 +44,7 @@ class Application {
   }
 
   init() {
+
   }
 
   initTimerView(time) {
