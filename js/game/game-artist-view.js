@@ -15,7 +15,7 @@ export default class GameArtistView extends AbstractView {
         <h2 class="title main-title">Кто исполняет эту песню?</h2>
         <div class="player-wrapper"></div>
         <form class="main-list">
-          ${[...this.question.answers].map((answer, index) =>
+          ${Array.prototype.slice.call(this.question.answers, 0).map((answer, index) =>
             this.createAnswer(index, answer)
           )}
         </form>
