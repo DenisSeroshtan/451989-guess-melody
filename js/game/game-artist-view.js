@@ -45,15 +45,15 @@ export default class GameArtistView extends AbstractView {
     const artistSong = this.question.data;
     window.initializePlayer(player, artistSong.file, true, true);
 
-    answers.forEach((item) => {
-      item.addEventListener(`click`, (event) => {
+    for (let answer of answers) {
+      answer.addEventListener(`click`, (event) => {
         event.preventDefault();
 
         const wrapperElement = event.currentTarget;
         const index = wrapperElement.querySelector(`.main-answer-r`).value;
         this.onAnswer(index);
       });
-    });
+    }
   }
 
 
