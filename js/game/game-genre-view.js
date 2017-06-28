@@ -37,8 +37,8 @@ export default class GameGenreView extends AbstractView {
   bind() {
     const screenDom = this.element;
 
-    this.answers = screenDom.querySelectorAll(`.genre-answer`);
-    this.answerButton = screenDom.querySelector(`.genre-answer-send`);
+    this.answers = Array.prototype.slice.call(screenDom.querySelectorAll(`.genre-answer`), 0);
+    this.answerButton = Array.prototype.slice.call(screenDom.querySelector(`.genre-answer-send`), 0);
 
     const playerWrappers = Array.prototype.slice.call(screenDom.querySelectorAll(`.player-wrapper`), 0);
 
@@ -50,7 +50,7 @@ export default class GameGenreView extends AbstractView {
           this.currentAudio.pause();
         }
 
-        this.currentAudio = item.querySelectorAll(`audio`)[0];
+        this.currentAudio = Array.prototype.slice.call(item.querySelectorAll(`audio`))[0];
       });
 
       window.initializePlayer(item, Array.prototype.slice.call(this.question.answers, 0)[i].file, false, true);
