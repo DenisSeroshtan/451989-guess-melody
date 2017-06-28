@@ -13,7 +13,7 @@ export default class GameGenreView extends AbstractView {
     <div class="main-wrap">
       <h2 class="title">${this.question.data.toLowerCase()}</h2>
       <form class="genre">
-        ${[...this.question.answers].map((answer, index) =>
+        ${Array.prototype.slice.call(this.question.answers, 0).map((answer, index) =>
            this.createSong(index, answer)
         )}
         <button class="genre-answer-send" type="submit">Ответить</button>
@@ -53,11 +53,13 @@ export default class GameGenreView extends AbstractView {
         this.currentAudio = item.querySelectorAll(`audio`)[0];
       });
 
-      window.initializePlayer(item, [...this.question.answers][i].file, false, true);
+      window.initializePlayer(item, Array.prototype.slice.call(this.question.answers, 0)[i].file, false, true);
     });
 
     this.answers.forEach((item) => {
-      item.addEventListener(`click`, () => {
+      const checkbox = item.querySelector(`input`);
+
+      checkbox.addEventListener(`click`, () => {
         this.answerClickHandler();
       });
     });
@@ -68,7 +70,7 @@ export default class GameGenreView extends AbstractView {
       event.preventDefault();
 
       const answerIndexes = [];
-      [...this.answers].forEach((item, i, array) => {
+      Array.prototype.slice.call(this.answers, 0).forEach((item, i, array) => {
         if (this.answers[i].querySelector(`input`).checked) {
           answerIndexes.push(i);
         }
