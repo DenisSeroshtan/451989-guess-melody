@@ -19,6 +19,8 @@ class ResultPresenter {
     this.view.onRestartClick = () => {
       location.hash = application.ControllerId.WELCOME;
     };
+
+    application.destroyTimerView();
   }
 
   getPercentHighscore(userStat) {

@@ -3,6 +3,7 @@ import game from './game/game-presenter.js';
 import result from './result/result-presenter.js';
 import model from './game/game-model.js';
 import resultModel from './result/result-model.js';
+import timer from './timer-view.js';
 
 class Application {
   constructor() {
@@ -43,6 +44,23 @@ class Application {
   }
 
   init() {
+
+  }
+
+  initTimerView(time) {
+    const appDiv = document.querySelector(`.timer`);
+    appDiv.appendChild(timer());
+
+    this.timerStopFunction = window.initializeCountdown(time);
+  }
+
+  destroyTimerView() {
+    const appDiv = document.querySelector(`.timer`);
+    appDiv.innerHTML = ``;
+
+    if (this.timerStopFunction) {
+      this.timerStopFunction();
+    }
   }
 
   showWelcome() {
@@ -90,11 +108,7 @@ class Application {
     game.destroy();
 
     if (controller) {
-      if (params) {
-        controller.init(params);
-      } else {
-        controller.init();
-      }
+      controller.init(params);
     } else {
       this.showWelcome();
     }

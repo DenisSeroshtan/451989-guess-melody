@@ -1,5 +1,4 @@
 import AbstractView from '../view.js';
-import timer from '../timer-view';
 
 export default class GameArtistView extends AbstractView {
   constructor(question) {
@@ -10,8 +9,6 @@ export default class GameArtistView extends AbstractView {
 
   get template() {
     return `<section class="main main--level main--level-artist">
-      ${timer()}
-  
       <div class="main-wrap">
         <div class="main-timer"></div>
   
@@ -28,11 +25,11 @@ export default class GameArtistView extends AbstractView {
 
   createAnswer(index, answer) {
     return `<div class="main-answer-wrapper">
-    <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="${index}" />
-    <label class="main-answer" for="answer-1">
-    <img class="main-answer-preview" src="${answer.image}">
-    ${answer.artistName}
-    </label>
+      <input class="main-answer-r" type="radio" id="answer-${index}" name="answer" value="${index}" />
+      <label class="main-answer" for="answer-1">
+        <img class="main-answer-preview" src="${answer.image}">
+        ${answer.artistName}
+      </label>
     </div>`;
   }
 
@@ -48,15 +45,15 @@ export default class GameArtistView extends AbstractView {
     const artistSong = this.question.data;
     window.initializePlayer(player, artistSong.file, true, true);
 
-    answers.forEach((item) => {
-      item.addEventListener(`click`, (event) => {
+    for (let answer of answers) {
+      answer.addEventListener(`click`, (event) => {
         event.preventDefault();
 
         const wrapperElement = event.currentTarget;
         const index = wrapperElement.querySelector(`.main-answer-r`).value;
         this.onAnswer(index);
       });
-    });
+    }
   }
 
 
