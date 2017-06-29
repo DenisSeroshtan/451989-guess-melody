@@ -29,7 +29,7 @@ export default class GameArtistView extends AbstractView {
       <label class="main-answer" for="answer-1">
         <img class="main-answer-preview" src="${answer.image}">
         ${answer.artistName}
-      </label>
+      </label> 
     </div>`;
   }
 
@@ -39,7 +39,7 @@ export default class GameArtistView extends AbstractView {
 
   bind() {
     const screenDom = this.element;
-    const answers = screenDom.querySelectorAll(`.main-answer-wrapper`);
+    const answers = Array.prototype.slice.call(screenDom.querySelectorAll(`.main-answer-wrapper`), 0);
     const player = screenDom.querySelector(`.player-wrapper`);
 
     const artistSong = this.question.data;
