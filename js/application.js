@@ -4,6 +4,7 @@ import result from './result/result-presenter.js';
 import model from './game/game-model.js';
 import resultModel from './result/result-model.js';
 import timer from './timer-view.js';
+import * as utils from './utils.js';
 
 class Application {
   constructor() {
@@ -23,14 +24,20 @@ class Application {
       .then((data) => this.setup(data))
       .then(() => {
         return resultModel.load();
-      }).catch(()=>{
+      }).catch(() => {
         return [];
       })
       .then((stats) => {
         resultModel.stats = stats;
+      }).then(() => {
+        return new Promise((resolve, reject) => {
+          utils.preloadAudio(model.questions, resolve, reject);
+        });
+      }).then(() => {
         preloaderRemove();
         this.initLocation();
-      }).catch(window.console.error);
+      })
+      .catch(window.console.error);
   }
 
   setup(questions) {
