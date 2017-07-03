@@ -26,7 +26,7 @@ class ResultPresenter {
   getPercentHighscore(userStat) {
     userStat.isPlayerResult = true;
 
-    const serverStats = resultModel.stats;
+    const serverStats = resultModel._stats;
     serverStats.push(userStat);
 
     serverStats.sort((a, b) => {

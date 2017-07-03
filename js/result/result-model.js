@@ -26,7 +26,7 @@ class ResultModel extends BaseModel {
   constructor() {
     super();
 
-    this.stats = [];
+    this._stats = [];
   }
 
   get urlRead() {

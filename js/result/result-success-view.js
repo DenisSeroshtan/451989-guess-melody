@@ -6,15 +6,15 @@ export default class ResultFailView extends AbstractView {
   constructor(stats) {
     super();
 
-    this.stats = stats;
+    this._stats = stats;
   }
 
   get template() {
     return `<section class="main main--result">
         <section class="logo" title="${data.gameInfo.gameName}"><h1>${data.gameInfo.gameName}</h1></section>
         <h2 class="title">Вы настоящий меломан!</h2>
-        <div class="main-stat">За&nbsp;${this.getTimeString()}<br>вы&nbsp;отгадали ${this.stats.answers}&nbsp;мелодии</div>
-        <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${this.stats.percentHighscore}&nbsp;игроков</span>
+        <div class="main-stat">За&nbsp;${this.getTimeString()}<br>вы&nbsp;отгадали ${this._stats.answers}&nbsp;мелодии</div>
+        <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${this._stats.percentHighscore}&nbsp;игроков</span>
         <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
       </section>`;
   }
@@ -35,7 +35,7 @@ export default class ResultFailView extends AbstractView {
   }
 
   getTimeString() {
-    const time = this.stats.time;
+    const time = this._stats.time;
 
     const mins = Math.floor(time / 60);
     const secs = time - (mins * 60);

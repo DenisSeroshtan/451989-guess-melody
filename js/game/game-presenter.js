@@ -6,39 +6,39 @@ import application from '../application.js';
 class GamePresenter {
 
   constructor(model) {
-    this.model = model;
+    this._model = model;
   }
 
   init() {
-    switch (this.model.currentQuestion.type) {
-      case this.model.QuestionType.ARTIST:
-        this.view = new ArtistView(this.model.currentQuestion);
+    switch (this._model.currentQuestion.type) {
+      case this._model.QuestionType.ARTIST:
+        this.view = new ArtistView(this._model.currentQuestion);
         break;
-      case this.model.QuestionType.GENRE:
-        this.view = new GenreView(this.model.currentQuestion);
+      case this._model.QuestionType.GENRE:
+        this.view = new GenreView(this._model.currentQuestion);
         break;
     }
 
     this.view.create();
     this.view.show();
-    this.view.onAnswer = (...answerIndexes) => this.model.answer(...answerIndexes);
+    this.view.onAnswer = (...answerIndexes) => this._model.answer(...answerIndexes);
 
-    this.model.onNextQuestion = () => {
+    this._model.onNextQuestion = () => {
       application.showGame();
     };
 
-    this.model.onFinishGame = () => {
-      if (this.model.isFail) {
+    this._model.onFinishGame = () => {
+      if (this._model.isFail) {
         location.hash = application.ControllerId.RESULT;
       } else {
-        location.hash = `${application.ControllerId.RESULT}=${JSON.stringify(this.model.stats)}`;
+        location.hash = `${application.ControllerId.RESULT}=${JSON.stringify(this._model._stats)}`;
       }
 
       this.destroy();
     };
 
-    if (this.model.state.currentIndex === 0) {
-      application.initTimerView(this.model.timeLeft);
+    if (this._model.state.currentIndex === 0) {
+      application.initTimerView(this._model.timeLeft);
 
       this.timer = setInterval(() =>
           this.updateTimer()
@@ -48,11 +48,11 @@ class GamePresenter {
 
   destroy() {
     clearInterval(this.timer);
-    this.model.resetGame();
+    this._model.resetGame();
   }
 
   updateTimer() {
-    this.model.timeLeft--;
+    this._model.timeLeft--;
   }
 }
 

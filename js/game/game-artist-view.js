@@ -4,7 +4,7 @@ export default class GameArtistView extends AbstractView {
   constructor(question) {
     super();
 
-    this.question = question;
+    this._question = question;
   }
 
   get template() {
@@ -15,7 +15,7 @@ export default class GameArtistView extends AbstractView {
         <h2 class="title main-title">Кто исполняет эту песню?</h2>
         <div class="player-wrapper"></div>
         <form class="main-list">
-          ${Array.prototype.slice.call(this.question.answers, 0).map((answer, index) =>
+          ${Array.prototype.slice.call(this._question.answers, 0).map((answer, index) =>
             this.createAnswer(index, answer)
           )}
         </form>
@@ -42,7 +42,7 @@ export default class GameArtistView extends AbstractView {
     const answers = Array.prototype.slice.call(screenDom.querySelectorAll(`.main-answer-wrapper`), 0);
     const player = screenDom.querySelector(`.player-wrapper`);
 
-    const artistSong = this.question.data;
+    const artistSong = this._question.data;
     window.initializePlayer(player, artistSong.file, true, true);
 
     for (let answer of answers) {

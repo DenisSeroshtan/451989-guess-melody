@@ -5,15 +5,15 @@ export default class GameGenreView extends AbstractView {
   constructor(question) {
     super();
 
-    this.question = question;
+    this._question = question;
   }
 
   get template() {
     return `<section class="main main--level main--level-genre">
     <div class="main-wrap">
-      <h2 class="title">${this.question.data.toLowerCase()}</h2>
+      <h2 class="title">${this._question.data.toLowerCase()}</h2>
       <form class="genre">
-        ${Array.prototype.slice.call(this.question.answers, 0).map((answer, index) =>
+        ${Array.prototype.slice.call(this._question.answers, 0).map((answer, index) =>
            this.createSong(index, answer)
         )}
         <button class="genre-answer-send" type="submit">Ответить</button>
@@ -53,7 +53,7 @@ export default class GameGenreView extends AbstractView {
         this.currentAudio = Array.prototype.slice.call(item.querySelectorAll(`audio`))[0];
       });
 
-      window.initializePlayer(item, Array.prototype.slice.call(this.question.answers, 0)[i].file, false, true);
+      window.initializePlayer(item, Array.prototype.slice.call(this._question.answers, 0)[i].file, false, true);
     });
 
     this.answers.forEach((item) => {

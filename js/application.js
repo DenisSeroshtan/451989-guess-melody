@@ -28,7 +28,7 @@ class Application {
         return [];
       })
       .then((stats) => {
-        resultModel.stats = stats;
+        resultModel._stats = stats;
       }).then(() => {
         return new Promise((resolve, reject) => {
           utils.preloadAudio(model.questions, resolve, reject);
@@ -43,7 +43,7 @@ class Application {
   setup(questions) {
     model.questions = questions;
 
-    this.routes = {
+    this._routes = {
       [this.ControllerId.WELCOME]: welcome,
       [this.ControllerId.GAME]: game,
       [this.ControllerId.RESULT]: result
@@ -111,7 +111,7 @@ class Application {
   }
 
   changeController(route = ``, params) {
-    const controller = this.routes[route];
+    const controller = this._routes[route];
     game.destroy();
 
     if (controller) {
