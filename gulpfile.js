@@ -51,7 +51,7 @@ gulp.task('style', function () {
     .pipe(rename('style.min.css'))
     .pipe(gulp.dest('build/css'));
 });
-
+ 
 gulp.task('scripts', function () {
   return gulp.src(['js/**/*.js', '!js/**/*.test.js'])
     .pipe(plumber())
