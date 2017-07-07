@@ -31,7 +31,8 @@ class Application {
         resultModel._stats = stats;
       }).then(() => {
         return new Promise((resolve, reject) => {
-          utils.preloadAudio(model.questions, resolve, reject);
+          // utils.preloadAudio(model.questions, resolve, reject);
+          resolve();
         });
       }).then(() => {
         preloaderRemove();

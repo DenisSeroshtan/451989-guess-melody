@@ -18,7 +18,7 @@ const mocha = require('gulp-mocha');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const babel = require('rollup-plugin-babel');
-
+const uglify = require('gulp-uglify');
 
 gulp.task('test', function () {
   return gulp
@@ -51,28 +51,29 @@ gulp.task('style', function () {
     .pipe(rename('style.min.css'))
     .pipe(gulp.dest('build/css'));
 });
- 
+
 gulp.task('scripts', function () {
   return gulp.src(['js/**/*.js', '!js/**/*.test.js'])
     .pipe(plumber())
-	.pipe(sourcemaps.init())
-	.pipe(rollup({
-    plugins: [
-      resolve({browsers:true}),
-      commonjs(),
-      babel({
-        babelrc: false,
-        exclude: 'node_modules/**',
-        presets: [
-          ['env', {modules: false}]
-        ],
-        plugins: [
-          'external-helpers'
-        ]
-      })
-    ]
-  }, 'iife'))
-	.pipe(sourcemaps.write(''))
+    .pipe(sourcemaps.init())
+    .pipe(rollup({
+      plugins: [
+        resolve({browsers: true}),
+        commonjs(),
+        babel({
+          babelrc: false,
+          exclude: 'node_modules/**',
+          presets: [
+            ['env', {modules: false}]
+          ],
+          plugins: [
+            'external-helpers'
+          ]
+        })
+      ]
+    }, 'iife'))
+   // .pipe(uglify())
+    .pipe(sourcemaps.write(''))
     .pipe(gulp.dest('build/js/'));
 });
 
